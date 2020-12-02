@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "685257145118",
+    "firebase_url": "https://word-today.firebaseio.com",
+    "project_id": "word-today",
+    "storage_bucket": "word-today.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685257145118:android:b01515b7cb85187c38270f",
+        "android_client_info": {
+          "package_name": "com.dartist.work_today"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685257145118-lumsimm4sml18po8bke3pfdc0fn2cgrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPoWrsa4grx09EEAp8ne5yv3u_WIAb9LI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685257145118-lumsimm4sml18po8bke3pfdc0fn2cgrj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
