@@ -1,5 +1,6 @@
 import 'package:work_today/components/my_button.dart';
 import 'package:work_today/model/category.dart';
+import 'package:work_today/screens/available_worker.dart';
 import 'package:work_today/screens/home_screen.dart';
 import 'package:work_today/screens/worker_home.dart';
 import 'package:work_today/services/firebase_user.dart';
@@ -7,12 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:work_today/components/category_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CategoriesScreen extends StatefulWidget {
+class CategoryScreen extends StatefulWidget {
+
+  final bool isHirer;
+
+  const CategoryScreen({Key key, this.isHirer}) : super(key: key);
+
   @override
-  _CategoriesScreenState createState() => _CategoriesScreenState();
+  _CategoryScreenState createState() => _CategoryScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+class _CategoryScreenState extends State<CategoryScreen> {
   Category category = Category();
   final _firestore = FirebaseFirestore.instance;
 
@@ -31,15 +37,25 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   text: category.categoryList[index],
                   isSelected: category.categoryBool[index],
                   onPress: () {
-                    setState(() {
-                      category.categoryBool[index] = !category.categoryBool[index];
-                    });
+
+                    if(widget.isHirer){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AvailableWorker(category: category.categoryList[index],),
+                          ));
+                    }
+                    else{
+                      setState(() {
+                        category.categoryBool[index] = !category.categoryBool[index];
+                      });
+                    }
                   },
                 );
               },
               itemCount: category.categoryList.length,
             ),
-            Positioned(
+            widget.isHirer ? Container() :Positioned(
               left: MediaQuery.of(context).size.width * 0.5 - 50,
               child: MyButton(
                 text: 'Continue..',

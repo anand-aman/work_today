@@ -1,8 +1,12 @@
+import 'package:work_today/components/my_button.dart';
+import 'package:work_today/screens/category_screen.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:flutter/material.dart';
+import 'package:work_today/screens/available_worker.dart';
+
 import 'home_screen.dart';
 
-class WorkerHome extends StatelessWidget {
+class HirerHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,24 +50,26 @@ class WorkerHome extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.only(left: 18.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 25.0,
-              ),
-              Text("Hii ,\nHere Are Your Requests",
-                  style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.w500,
-                      wordSpacing: 2.5,
-                      color: Colors.black)),
-              SizedBox(
-                height: 45.0,
-              ),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 25.0,
+            ),
+            Text("Hii ,\nWhat Are You Looking For",
+                style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w500,
+                    wordSpacing: 2.5,
+                    color: Colors.black)),
+            Expanded(child: Center(child: MyButton(text: 'Hire', onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CategoryScreen(isHirer: true,),
+                  ));
+            }))),
+          ],
         ),
       ),
     );

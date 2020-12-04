@@ -6,7 +6,7 @@ import 'package:work_today/screens/worker_home.dart';
 import 'package:flutter/material.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:work_today/screens/category_screen.dart';
-import 'package:work_today/screens/HireHome.dart';
+import 'package:work_today/screens/hirer_home.dart';
 
 class Check extends StatefulWidget {
   @override
@@ -38,7 +38,7 @@ class _CheckState extends State<Check> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HireHome(),
+                builder: (context) => HirerHome(),
               ));
       }
     });

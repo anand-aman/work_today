@@ -11,7 +11,7 @@ class AppUser {
   String phoneNo;
   String email;
   String uid;
-  String city;
+  String location;
   bool isHirer;
   Category category;
 
@@ -25,7 +25,23 @@ class AppUser {
     phoneNo = data['phoneNo'];
     email = data['email'];
     uid = FirebaseCurrentUser.user.uid;
-    city = data['city'];
+    location = data['city'];
     isHirer = data['isHirer'];
   }
+
+  Future<void> getUserData(String docID) async {
+    DocumentReference ref = _firestore.collection('users').doc(docID);
+    DocumentSnapshot doc = await ref.get();
+    var data = doc.data();
+    print(data);
+
+    name = data['name'];
+    phoneNo = data['phoneNo'];
+    email = data['email'];
+    uid = data['uid'];
+    location = data['city'];
+    isHirer = data['isHirer'];
+  }
+
+
 }
