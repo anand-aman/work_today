@@ -5,16 +5,13 @@ import 'package:work_today/model/app_user.dart';
 import 'package:work_today/model/category.dart';
 import 'package:work_today/services/firebase_user.dart';
 
+final _firestore = FirebaseFirestore.instance;
+
 class AvailableWorker extends StatelessWidget {
   final String category;
   AvailableWorker({Key key, this.category}) : super(key: key);
 
-  final _firestore = FirebaseFirestore.instance;
   List<String> availableUserID = [];
-
-
-
-
 
   Future<void> getUserList() async {
     DocumentReference ref = _firestore.collection('category').doc('cfdOhIiAzuSEHARrTAPK');
@@ -33,23 +30,23 @@ class AvailableWorker extends StatelessWidget {
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.only(left: 18.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  height: 25.0,
-                ),
-                Text("Available $category",
-                    style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.w500,
-                        wordSpacing: 2.5,
-                        color: Colors.black)),
-                SizedBox(
-                  height: 45.0,
-                ),
-                StreamBuilder<QuerySnapshot>(stream: _firestore.collection("users").snapshots(),builder: (context, snapshot) {
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 25.0,
+              ),
+              Text("Available $category",
+                  style: TextStyle(
+                      fontSize: 50.0,
+                      fontWeight: FontWeight.w500,
+                      wordSpacing: 2.5,
+                      color: Colors.black)),
+              SizedBox(
+                height: 45.0,
+              ),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(stream: _firestore.collection("users").snapshots(),builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(
@@ -58,11 +55,11 @@ class AvailableWorker extends StatelessWidget {
                     );
                   }
 
-                  final sampleTimers = snapshot.data.docs.reversed;
+                  final jobs = snapshot.data.docs.reversed;
                   List<Widget> workerWidgetList = [];
-                  for (var sampleTimer in sampleTimers) {
-                    var data = sampleTimer.data();
-                    String docID = sampleTimer.id;
+                  for (var job in jobs) {
+                    var data = job.data();
+                    String docID = job.id;
 
                     // if(!availableUserID.contains(docID))
                     //   continue;
@@ -75,7 +72,7 @@ class AvailableWorker extends StatelessWidget {
                     String username = data['name'];
                     print(username);
                     String city = data['city'];
-                    workerWidgetList.add(WorkerCard(workerName: username, location: city, job: category, workerId: sampleTimer.id,));
+                    workerWidgetList.add(WorkerCard(workerName: username, location: city, job: category, workerId: job.id,));
 
 
                   }
@@ -83,37 +80,14 @@ class AvailableWorker extends StatelessWidget {
 
                   return Container(
                     alignment: Alignment.center,
-                    height: 250.0,
                     width: double.infinity,
                     child: ListView(
                       children: workerWidgetList,
                     ),
                   );
                 },),
-//                 ListView.builder(
-//                   itemCount: 10,
-//                   scrollDirection: Axis.vertical,
-//                   shrinkWrap: true,
-//                   physics: ScrollPhysics(),
-//                   itemBuilder: (context, index) {
-// //                  var recent = categories[index];
-//                     return InkWell(
-// //                    onTap: () {
-// //                      Navigator.push(
-// //                        context,
-// //                        MaterialPageRoute(
-// //                          builder: (context) => JobDetail(
-// //                            company: recent,
-// //                          ),
-// //                        ),
-// //                      );
-// //                    },
-//                       child: WorkerCard(),
-//                     );
-//                   },
-//                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

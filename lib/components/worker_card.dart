@@ -29,18 +29,7 @@ class _WorkerCardState extends State<WorkerCard> {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: ListTile(
-//        leading: Container(
-//          width: 50.0,
-//          height: 50.0,
-//          decoration: BoxDecoration(
-//            borderRadius: BorderRadius.circular(12.0),
-//            image: DecorationImage(
-//              image: AssetImage(job.image),
-//              fit: BoxFit.cover,
-//            ),
-//          ),
-//        ),
-        title: Text("${widget.workerName}", style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w400)),
+        title: Text("${widget.workerName}", style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w400),),
         subtitle: Text(
           "${widget.location}",
         ),
@@ -51,6 +40,7 @@ class _WorkerCardState extends State<WorkerCard> {
             setState(() {
               isLoading=true;
             });
+
             AppUser hirer = FirebaseCurrentUser.appUser;
             AppUser worker = new AppUser();
             await worker.getUserData(widget.workerId);
@@ -59,7 +49,7 @@ class _WorkerCardState extends State<WorkerCard> {
               print("Worker: $worker \n Hirer: $hirer");
               return;
             }
-            _firestore
+            String requestDocID = await _firestore
                 .collection('users')
                 .doc(worker.uid).collection("request").add({
               "hirername": hirer.name,
@@ -67,17 +57,28 @@ class _WorkerCardState extends State<WorkerCard> {
               "job": widget.job,
               "location": hirer.location,
               "offer": 500,
-            });
+              "isAccepted": false,
+            }).then((value) => value.id);
 
-            _firestore
+            await _firestore
                 .collection('users')
-                .doc(hirer.uid).collection("request").add({
+                .doc(hirer.uid).collection("request").doc(requestDocID).set({
               "workername": worker.name,
               "workerid": worker.uid,
               "job": widget.job,
               "location": worker.location,
               "offer": 500,
+              "requestid": requestDocID,
+              "isAccepted": false,
+            }).then((value){
+              _firestore
+                  .collection('users')
+                  .doc(worker.uid).collection("request").doc(requestDocID).update({
+                "requestid": requestDocID,
+              });
             });
+            
+            
 
            setState(() {
              isLoading=false;
