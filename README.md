@@ -4,7 +4,7 @@
 to hire or to work.
 
 
-## Features
+## Features:
 
 - Seperate signup and account feature for Workers and Hirers.
 - Workers can select the job they want to do.
@@ -16,7 +16,7 @@ to hire or to work.
 - Automatic Location Detection
 
 
-## Required Contribution
+## Required Contribution:
 
 ### Design
 - UI-UX Design improvemtns
@@ -30,7 +30,7 @@ to hire or to work.
 - Performance improvements
 
 
-## To Contribute
+## To Contribute:
 
 - Create an issue
 - Get it assigned
