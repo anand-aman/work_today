@@ -1,16 +1,49 @@
-# work_today
+# Work Today App
 
-A new Flutter application.
+- We envision creating better and empowered livelihood for  daily wagers all across India. Through our innovation and dedication we are striving towards creating an organized infrastructure and accountable days of employment for these daily wagers . We have deeply understood the state of workers in India ,in this pandemic and our app provides the best solution according to us for the given problem statement . We simply connect workers with hirers , whilst providing a simple to use UI that anybody can make  use of 
+to hire or to work.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Seperate signup and account feature for Workers and Hirers.
+- Workers can select the job they want to do.
+- Hirer's can search for workers according to the job.
+- Hirer's can create a job request which will be shown on the home page of the Worker.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Firebase User authentication
+- Login Persistence
+- Automatic Location Detection
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Required Contribution
+
+### Design
+- UI-UX Design improvemtns
+- Logo Design
+- Graphic design work for playstore
+
+### Development
+- New features (Ex. Chat feature, Google sign in, facebook sign in, etc)
+- Code Refactor
+- Bug fixes
+- Performance improvements
+
+
+## To Contribute
+
+- Create an issue
+- Get it assigned
+- Work on it
+- Create pull request and mention the issue number with '#'
+- Make changes if required
+
+## Screenshots
+
+<img src="https://i.ibb.co/KGSvs6X/1.png">
+<img src="https://i.ibb.co/7tPmCPm/2.png">
+<img src="https://i.ibb.co/7QrG1Cq/3.png">
+<img src="https://i.ibb.co/qdN90g3/4.png">
+<img src="https://i.ibb.co/BCzTLsq/5.png">
+<img src="https://i.ibb.co/8Bvst97/6.png">
+<img src="https://i.ibb.co/wrM2smb/7.png">
