@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Center(
                     child: Text(
-                      'LABOUR TODAY',
+                      'WORK TODAY',
                       style: TextStyle(
                         fontSize: 40.0,
                         fontWeight: FontWeight.bold,
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Hire Labours Instantly',
+                    'Hire Worker Instantly',
                     style: TextStyle(
                       color: Color(0xFF7F1CFF),
                       fontWeight: FontWeight.bold,

@@ -25,6 +25,7 @@ class FirebaseCurrentUser {
   Future<void> signOut() async {
     return _auth.signOut().then((value) {
       user = null;
+      appUser = null;
     });
   }
 

@@ -20,7 +20,7 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   Category category = Category();
-  final _firestore = FirebaseFirestore.instance;
+
 
   @override
   Widget build(BuildContext context) {

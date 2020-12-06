@@ -118,7 +118,7 @@ class RequestStream extends StatelessWidget {
           amount: data['offer'],
         );
 
-        requestCardList.add(RequestCard(requestWorker: requestWorker,));
+        requestCardList.add(HirerRequestCard(requestWorker: requestWorker,));
       }
 
 

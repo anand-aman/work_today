@@ -55,7 +55,7 @@ class _CheckState extends State<Check> {
       body: SafeArea(
         child: Center(
           child: Text(
-            'Dartists',
+            'Work Today',
             style: TextStyle(fontSize: 50.0),
           ),
         ),
