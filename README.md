@@ -40,6 +40,10 @@ to hire or to work.
 
 ## Screenshots
 
+![Home Page](https://i.ibb.co/KGSvs6X/1.png "Home")
+![Sign-Up](https://i.ibb.co/7tPmCPm/2.png "Sign-Up")
+![Sign-IN](https://i.ibb.co/7QrG1Cq/3.png "Sign-In")
+
 <img src="https://i.ibb.co/KGSvs6X/1.png" width="250">
 <img src="https://i.ibb.co/7tPmCPm/2.png" width="250">
 <img src="https://i.ibb.co/7QrG1Cq/3.png" width="250">
