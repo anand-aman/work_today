@@ -40,10 +40,7 @@ to hire or to work.
 
 ## Screenshots
 
-![Home Page](https://i.ibb.co/KGSvs6X/1.png "Home")
-![Sign-Up](https://i.ibb.co/7tPmCPm/2.png "Sign-Up")
-![Sign-IN](https://i.ibb.co/7QrG1Cq/3.png "Sign-In")
-
+<p align="center">
 <img src="https://i.ibb.co/KGSvs6X/1.png" width="250">
 <img src="https://i.ibb.co/7tPmCPm/2.png" width="250">
 <img src="https://i.ibb.co/7QrG1Cq/3.png" width="250">
@@ -51,3 +48,4 @@ to hire or to work.
 <img src="https://i.ibb.co/BCzTLsq/5.png" width="250">
 <img src="https://i.ibb.co/8Bvst97/6.png" width="250">
 <img src="https://i.ibb.co/wrM2smb/7.png" width="250">
+  </p>
