@@ -40,10 +40,10 @@ to hire or to work.
 
 ## Screenshots
 
-<img src="https://i.ibb.co/KGSvs6X/1.png">
-<img src="https://i.ibb.co/7tPmCPm/2.png">
-<img src="https://i.ibb.co/7QrG1Cq/3.png">
-<img src="https://i.ibb.co/qdN90g3/4.png">
-<img src="https://i.ibb.co/BCzTLsq/5.png">
-<img src="https://i.ibb.co/8Bvst97/6.png">
-<img src="https://i.ibb.co/wrM2smb/7.png">
+<img src="https://i.ibb.co/KGSvs6X/1.png" width="250">
+<img src="https://i.ibb.co/7tPmCPm/2.png" width="250">
+<img src="https://i.ibb.co/7QrG1Cq/3.png" width="250">
+<img src="https://i.ibb.co/qdN90g3/4.png" width="250">
+<img src="https://i.ibb.co/BCzTLsq/5.png" width="250">
+<img src="https://i.ibb.co/8Bvst97/6.png" width="250">
+<img src="https://i.ibb.co/wrM2smb/7.png" width="250">
