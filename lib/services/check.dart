@@ -15,7 +15,7 @@ class Check extends StatefulWidget {
 
 class _CheckState extends State<Check> {
   void check() async {
-    Future.delayed(Duration(milliseconds: 10000), () async {
+    Future.delayed(Duration(milliseconds: 500), () async {
       if (FirebaseCurrentUser().currentUser == null) {
         Navigator.pushReplacement(
             context,
