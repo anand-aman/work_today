@@ -52,8 +52,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - images/work5.jpg
-    - images/work2.webp
+    - images/work6.jpg
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -72,10 +72,11 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Fruktur
-       fonts:
 
-         - asset: fonts/Fruktur-Regular.ttf
+     -  family : OleoScript
+        fonts:
+
+         - asset: fonts/OleoScript-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
 
