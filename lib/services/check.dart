@@ -15,7 +15,7 @@ class Check extends StatefulWidget {
 
 class _CheckState extends State<Check> {
   void check() async {
-    Future.delayed(Duration(milliseconds: 500), () async {
+    Future.delayed(Duration(milliseconds: 10000), () async {
       if (FirebaseCurrentUser().currentUser == null) {
         Navigator.pushReplacement(
             context,
@@ -52,11 +52,32 @@ class _CheckState extends State<Check> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.purple[900],
       body: SafeArea(
         child: Center(
-          child: Text(
-            'Work Today',
-            style: TextStyle(fontSize: 50.0),
+          child: Padding(
+            padding: const EdgeInsets.all(45.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:<Widget> [
+                Image(
+                  image: AssetImage('images/work2.webp'),
+
+                  height: 50.0,
+
+                ),
+                Text(
+                  "orkToday",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35.0,
+                    fontFamily: 'Fruktur',
+                    fontWeight: FontWeight.w900,
+
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
