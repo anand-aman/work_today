@@ -7,7 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class FirebaseCurrentUser {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-//  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   static User user;
   static AppUser appUser;
@@ -29,9 +29,45 @@ class FirebaseCurrentUser {
     });
   }
 
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final UserCredential authResult =
+        await _auth.signInWithCredential(credential);
+    user = authResult.user;
+
+    if (user != null) {
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != null);
+
+      final User currentUser = _auth.currentUser;
+      assert(user.uid == currentUser.uid);
+
+      print('signInWithGoogle succeeded: $user');
+
+      return '$user';
+    }
+
+    return null;
+  }
+
+  Future<void> signOutGoogle() async {
+    await googleSignIn.signOut();
+
+    print("User Signed Out");
+  }
+
   Future<void> updateLocation(String city) async {
-    DocumentReference ref =
-        _firestore.collection('users').doc(FirebaseCurrentUser().currentUser.uid);
+    DocumentReference ref = _firestore
+        .collection('users')
+        .doc(FirebaseCurrentUser().currentUser.uid);
 
     return ref.update({
 //      'uid': user.uid,
@@ -65,7 +101,8 @@ class FirebaseCurrentUser {
       }
     }
 
-    DocumentReference ref = _firestore.collection('category').doc('cfdOhIiAzuSEHARrTAPK');
+    DocumentReference ref =
+        _firestore.collection('category').doc('cfdOhIiAzuSEHARrTAPK');
     DocumentSnapshot doc = await ref.get();
     var data = doc.data();
     Map<String, dynamic> categoryMap = data['category'];

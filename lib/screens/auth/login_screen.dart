@@ -10,6 +10,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:work_today/components/input_field.dart';
 
 import 'package:work_today/screens/home_screen.dart';
+import 'package:work_today/services/firebase_user.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 //  final _auth=FirebaseAuth.instance;
   String email;
   String password;
+  FirebaseCurrentUser firebaseCurrentUser = new FirebaseCurrentUser();
 
   final _emailInputController = TextEditingController();
   final _pwdInputController = TextEditingController();
@@ -58,7 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 55.0,
                           height: 55.0,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.elliptical(27.5, 27.5)),
+                            borderRadius:
+                                BorderRadius.all(Radius.elliptical(27.5, 27.5)),
                             color: const Color(0xff7F1CFF),
                           ),
                         ),
@@ -82,7 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       TextInputField(
                         controller: _emailInputController,
-                        validator: (input) => !input.contains('@') ? 'Not a valid Email' : null,
+                        validator: (input) =>
+                            !input.contains('@') ? 'Not a valid Email' : null,
                         textInputType: TextInputType.emailAddress,
                         label: "Email ID",
                       ),
@@ -91,8 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       PasswordInputField(
                         controller: _pwdInputController,
-                        validator: (input) =>
-                            input.length < 8 ? 'You need at least 8 characters' : null,
+                        validator: (input) => input.length < 8
+                            ? 'You need at least 8 characters'
+                            : null,
                         label: "Password",
                       ),
                       SizedBox(
@@ -127,9 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                           try {
                             print('Signin execution started');
-                            final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                email: _emailInputController.text,
-                                password: _pwdInputController.text);
+                            final user = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: _emailInputController.text,
+                                    password: _pwdInputController.text);
                             setState(() {
                               showSpinner = false;
                             });
@@ -165,7 +171,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       GoogleSignInButton(
                         darkMode: false,
                         centered: true,
-                        onPressed: () {},
+                        onPressed: () => firebaseCurrentUser
+                            .signInWithGoogle()
+                            .whenComplete(() {
+                          setState(() {
+                            showSpinner = false;
+                          });
+                          if (firebaseCurrentUser.currentUser != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Check(),
+                                ));
+                          }
+                        }),
                       ),
                     ],
                   ),
