@@ -1,4 +1,5 @@
 import 'package:work_today/components/my_button.dart';
+import 'package:work_today/screens/auth/registration_screen.dart';
 import 'package:work_today/screens/category_screen.dart';
 import 'package:work_today/services/check.dart';
 import 'package:flutter/cupertino.dart';
@@ -181,7 +182,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Check(),
+                                  builder: (context) => RegistrationScreen(
+                                    isHire: true,
+                                    isGoogleSignin: true,
+                                  ),
                                 ));
                           }
                         }),
