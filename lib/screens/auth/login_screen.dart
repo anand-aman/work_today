@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:work_today/components/my_button.dart';
+import 'package:work_today/model/app_user.dart';
 import 'package:work_today/screens/auth/registration_screen.dart';
 import 'package:work_today/screens/category_screen.dart';
+import 'package:work_today/screens/hirer_home.dart';
 import 'package:work_today/services/check.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String email;
   String password;
   FirebaseCurrentUser firebaseCurrentUser = new FirebaseCurrentUser();
+  final _firestore = FirebaseFirestore.instance;
 
   final _emailInputController = TextEditingController();
   final _pwdInputController = TextEditingController();
@@ -174,19 +178,51 @@ class _LoginScreenState extends State<LoginScreen> {
                         centered: true,
                         onPressed: () => firebaseCurrentUser
                             .signInWithGoogle()
-                            .whenComplete(() {
+                            .whenComplete(() async {
+                          bool userExists = false;
+                          await _firestore
+                              .collection('users')
+                              .get()
+                              .then((value) {
+                            setState(() {
+                              List<String> uidList = value.docs
+                                  .map((e) => e.data()['uid'].toString())
+                                  .toList();
+                              userExists = uidList.contains(
+                                  firebaseCurrentUser.currentUser.uid);
+                              // print(firebaseCurrentUser.currentUser.uid);
+                              print(userExists);
+                            });
+                          });
+                          AppUser currentAppUser = new AppUser();
+                          print('getting appUser');
+                          if (userExists) await currentAppUser.initialize();
+                          print(currentAppUser.isHirer);
+
                           setState(() {
                             showSpinner = false;
                           });
                           if (firebaseCurrentUser.currentUser != null) {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegistrationScreen(
-                                    isHire: true,
-                                    isGoogleSignin: true,
-                                  ),
-                                ));
+                                userExists
+                                    ? (currentAppUser.isHirer)
+                                        ? MaterialPageRoute(
+                                            builder: (context) => HirerHome(),
+                                          )
+                                        : MaterialPageRoute(
+                                            builder: (context) =>
+                                                CategoryScreen(
+                                              isHirer: false,
+                                            ),
+                                          )
+                                    : MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegistrationScreen(
+                                          isHire: true,
+                                          isGoogleSignin: true,
+                                        ),
+                                      ));
                           }
                         }),
                       ),
