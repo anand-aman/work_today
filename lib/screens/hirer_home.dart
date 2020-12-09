@@ -62,7 +62,7 @@ class HirerHome extends StatelessWidget {
               height: 25.0,
             ),
             Text(
-                "Hii \${FirebaseCurrentUser.appUser.name},\nWhat Are You Looking For",
+                "Hii ${FirebaseCurrentUser.appUser.name},\nWhat Are You Looking For",
                 style: TextStyle(
                     fontSize: 23,
                     fontWeight: FontWeight.w500,
