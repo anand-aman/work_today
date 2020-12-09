@@ -195,9 +195,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           });
                           AppUser currentAppUser = new AppUser();
-                          print('getting appUser');
-                          if (userExists) await currentAppUser.initialize();
-                          print(currentAppUser.isHirer);
+                          if (userExists) {
+                            await currentAppUser.initialize();
+                            FirebaseCurrentUser.appUser = currentAppUser;
+                          }
+                          print(FirebaseCurrentUser.appUser.isHirer);
 
                           setState(() {
                             showSpinner = false;
@@ -206,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                                 context,
                                 userExists
-                                    ? (currentAppUser.isHirer)
+                                    ? (FirebaseCurrentUser.appUser.isHirer)
                                         ? MaterialPageRoute(
                                             builder: (context) => HirerHome(),
                                           )
