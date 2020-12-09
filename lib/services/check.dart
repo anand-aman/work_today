@@ -146,6 +146,34 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                   ),
                 ),
               ),
+              /* Earlier Code
+              // backgroundColor: Colors.white,
+              // body: SafeArea(
+              //   child: Center(
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(45.0),
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children:<Widget> [
+              //           Image(
+              //             image: AssetImage('images/work6.jpg'),
+
+              //             height: 140.0,
+              //             width: 140.0,
+
+              //           ),
+              //           Text(
+              //             "WorkToday",
+
+              //             style: TextStyle(
+              //               color: Colors.blue[800],
+              //               fontSize: 20.0,
+              //               fontFamily: 'OleoScript',
+              //               fontWeight: FontWeight.w900,
+
+              //             ),
+              //           )
+              //         ],*/
             ),
           ),
         ],
