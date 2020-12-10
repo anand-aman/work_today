@@ -61,7 +61,8 @@ class HirerHome extends StatelessWidget {
             SizedBox(
               height: 25.0,
             ),
-            Text("Hii ${FirebaseCurrentUser.appUser.name},\nWhat Are You Looking For",
+            Text(
+                "Hii ${FirebaseCurrentUser.appUser.name},\nWhat Are You Looking For",
                 style: TextStyle(
                     fontSize: 23,
                     fontWeight: FontWeight.w500,
@@ -71,13 +72,17 @@ class HirerHome extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(15.0),
               child: Center(
-                child: MyButton(text: 'Hire', onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CategoryScreen(isHirer: true,),
-                      ));
-                }),
+                child: MyButton(
+                    text: 'Hire',
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CategoryScreen(
+                              isHirer: true,
+                            ),
+                          ));
+                    }),
               ),
             )
           ],
@@ -87,49 +92,55 @@ class HirerHome extends StatelessWidget {
   }
 }
 
-
 class RequestStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(stream: _firestore.collection("users").doc(FirebaseCurrentUser.user.uid).collection("request").snapshots(),builder: (context, snapshot) {
-      if (!snapshot.hasData) {
-        return Center(
-          child: CircularProgressIndicator(
-            backgroundColor: Colors.lightBlueAccent,
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestore
+          .collection("users")
+          .doc(FirebaseCurrentUser.user.uid)
+          .collection("request")
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlueAccent,
+            ),
+          );
+        }
+
+        final requests = snapshot.data.docs.reversed;
+        List<Widget> requestCardList = [];
+        for (var request in requests) {
+          var data = request.data();
+
+          // if(!availableUserID.contains(docID))
+          //   continue;
+
+          RequestWorker requestWorker = RequestWorker(
+            workerName: data['workername'],
+            workerID: data['workerid'],
+            requestID: data['requestid'],
+            location: data['location'],
+            job: data['job'],
+            isAccepted: data['isAccepted'],
+            amount: data['offer'],
+          );
+
+          requestCardList.add(HirerRequestCard(
+            requestWorker: requestWorker,
+          ));
+        }
+
+        return Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          child: ListView(
+            children: requestCardList,
           ),
         );
-      }
-
-      final requests = snapshot.data.docs.reversed;
-      List<Widget> requestCardList = [];
-      for (var request in requests) {
-        var data = request.data();
-
-        // if(!availableUserID.contains(docID))
-        //   continue;
-
-        RequestWorker requestWorker = RequestWorker(
-          workerName: data['workername'],
-          workerID: data['workerid'],
-          requestID: data['requestid'],
-          location: data['location'],
-          job: data['job'],
-          isAccepted: data['isAccepted'],
-          amount: data['offer'],
-        );
-
-        requestCardList.add(HirerRequestCard(requestWorker: requestWorker,));
-      }
-
-
-      return Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        child: ListView(
-          children: requestCardList,
-        ),
-      );
-    },);
+      },
+    );
   }
 }
-

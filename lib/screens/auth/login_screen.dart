@@ -1,15 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:work_today/components/my_button.dart';
-import 'package:work_today/screens/category_screen.dart';
+
 import 'package:work_today/services/check.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
 import 'package:work_today/components/input_field.dart';
-
-import 'package:work_today/screens/home_screen.dart';
+import 'package:work_today/services/firebase_user.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
 //  final _auth=FirebaseAuth.instance;
   String email;
   String password;
+  final _firestore = FirebaseFirestore.instance;
 
   final _emailInputController = TextEditingController();
   final _pwdInputController = TextEditingController();
@@ -58,7 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 55.0,
                           height: 55.0,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.elliptical(27.5, 27.5)),
+                            borderRadius:
+                                BorderRadius.all(Radius.elliptical(27.5, 27.5)),
                             color: const Color(0xff7F1CFF),
                           ),
                         ),
@@ -82,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       TextInputField(
                         controller: _emailInputController,
-                        validator: (input) => !input.contains('@') ? 'Not a valid Email' : null,
+                        validator: (input) =>
+                            !input.contains('@') ? 'Not a valid Email' : null,
                         textInputType: TextInputType.emailAddress,
                         label: "Email ID",
                       ),
@@ -91,34 +92,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       PasswordInputField(
                         controller: _pwdInputController,
-                        validator: (input) =>
-                            input.length < 8 ? 'You need at least 8 characters' : null,
+                        validator: (input) => input.length < 8
+                            ? 'You need at least 8 characters'
+                            : null,
                         label: "Password",
                       ),
                       SizedBox(
                         height: 10,
                       ),
-//                      Align(
-//                        alignment: Alignment.topRight,
-//                        child: Text(
-//                          "Forgot Password ?",
-//                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-//                        ),
-//                      ),
                       SizedBox(
                         height: 20,
                       ),
-//                      Transform.translate(
-//                        offset: Offset(-100.0, 9.0),
-//                        child: Container(
-//                          width: 29.0,
-//                          height: 29.0,
-//                          decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.all(Radius.elliptical(14.5, 14.5)),
-//                            color: const Color(0x697f1cff),
-//                          ),
-//                        ),
-//                      ),
                       MyButton(
                         text: 'Login',
                         onPressed: () async {
@@ -127,9 +111,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                           try {
                             print('Signin execution started');
-                            final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                email: _emailInputController.text,
-                                password: _pwdInputController.text);
+                            final user = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: _emailInputController.text,
+                                    password: _pwdInputController.text);
                             setState(() {
                               showSpinner = false;
                             });
@@ -159,14 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
 
-                      SizedBox(
-                        height: 30,
-                      ),
-                      GoogleSignInButton(
-                        darkMode: false,
-                        centered: true,
-                        onPressed: () {},
-                      ),
+
                     ],
                   ),
                 ],
