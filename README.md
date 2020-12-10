@@ -18,7 +18,7 @@
 ## Required Contribution:
 
 ### Design
-- UI-UX Design improvemtns
+- UI/UX Design enhancements
 - Logo Design
 - Graphic design work for playstore
 
