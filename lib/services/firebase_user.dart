@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:work_today/model/app_user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:work_today/constants.dart';
 
 class FirebaseCurrentUser {
   final _auth = FirebaseAuth.instance;
@@ -11,6 +12,7 @@ class FirebaseCurrentUser {
 
   static User user;
   static AppUser appUser;
+  static SignInMethod signInMethod;
 
   User get currentUser {
     if (user != null) {
@@ -23,46 +25,48 @@ class FirebaseCurrentUser {
   }
 
   Future<void> signOut() async {
+    if(appUser.signInMethod==SignInMethod.google)
+      await googleSignIn.signOut();
+
     return _auth.signOut().then((value) {
       user = null;
       appUser = null;
+      signInMethod=null;
     });
   }
 
-  Future<String> signInWithGoogle() async {
+  Future<User> signInWithGoogle() async {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+
     final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+    await googleSignInAccount.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
 
-    final UserCredential authResult =
-        await _auth.signInWithCredential(credential);
-    user = authResult.user;
+    final UserCredential userCredential = await _auth.signInWithCredential(credential);
+    final User user = userCredential.user;
 
-    if (user != null) {
-      assert(!user.isAnonymous);
-      assert(await user.getIdToken() != null);
+    print(user);
 
-      final User currentUser = _auth.currentUser;
-      assert(user.uid == currentUser.uid);
-
-      print('signInWithGoogle succeeded: $user');
-
-      return '$user';
+    if (user == null) {
+      return user;
     }
 
-    return null;
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final User currentUser = _auth.currentUser;
+    assert(user.uid == currentUser.uid);
+
+    FirebaseCurrentUser.user = user;
+
+    return user;
   }
 
-  Future<void> signOutGoogle() async {
-    await googleSignIn.signOut();
 
-    print("User Signed Out");
-  }
 
   Future<void> updateLocation(String city) async {
     DocumentReference ref = _firestore

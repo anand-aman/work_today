@@ -3,6 +3,7 @@ import 'package:work_today/model/category.dart';
 import 'package:work_today/screens/available_worker.dart';
 import 'package:work_today/screens/home_screen.dart';
 import 'package:work_today/screens/worker_home.dart';
+import 'package:work_today/services/check.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:flutter/material.dart';
 import 'package:work_today/components/category_card.dart';
@@ -66,8 +67,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => WorkerHome(),
-                          settings: RouteSettings(name: 'Worker Screen'),
+                          builder: (context) => Check(),
                         ));
                   });
                 },

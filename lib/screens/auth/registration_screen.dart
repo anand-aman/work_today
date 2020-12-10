@@ -1,5 +1,6 @@
 import 'package:work_today/components/input_field.dart';
 import 'package:work_today/components/my_button.dart';
+import 'package:work_today/constants.dart';
 import 'package:work_today/screens/location_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,23 +11,21 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:work_today/services/location.dart';
 
-import 'login_screen.dart';
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
 class RegistrationScreen extends StatefulWidget {
   final bool isHire;
-  final bool isGoogleSignin;
+  final SignInMethod signInMethod;
 
-  const RegistrationScreen({Key key, this.isHire, this.isGoogleSignin = false})
+  const RegistrationScreen({Key key, this.isHire, this.signInMethod,})
       : super(key: key);
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-//  final _auth= FirebaseAuth.instance;
   int e = 0;
   bool isHirer;
   User user;
@@ -39,6 +38,80 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController _confirmPwdInputController = TextEditingController();
 
   bool showSpinner = false;
+
+  Future<bool> createUser() async{
+    if(widget.signInMethod==SignInMethod.email)
+      return _auth
+          .createUserWithEmailAndPassword(
+          email: _emailInputController.text,
+          password: _pwdInputController.text)
+          .then((currentUser) {
+        updateUserData(currentUser.user);
+        return true;
+      }).catchError((onError) {
+        setState(() {
+          showSpinner = false;
+        });
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(onError.toString()),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          },
+        );
+        return false;
+      });
+
+    return updateUserData(FirebaseCurrentUser.user).then((value)=>true);
+  }
+  Future<void> updateUserData(User currentUser) async{
+    print('DATA UPDATE STARTED');
+    _firestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .set({
+      "uid": currentUser.uid,
+      "name": _usernameInputController.text,
+      "phoneNo": _phoneNoController.text,
+      "email": _emailInputController.text,
+      "isHirer": isHirer,
+      "signInMethod": widget.signInMethod.index,
+    })
+        .then((value) => print('DATA UPDATED'))
+        .catchError((onError) {
+          setState(() {
+            showSpinner=false;
+          });
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(onError.toString()),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
+    });
+  }
+
   void initialize() async {
     isHirer = widget.isHire;
     user = FirebaseCurrentUser.user;
@@ -154,6 +227,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         TextInputField(
                           controller: _usernameInputController,
                           label: "Name",
+                          validator: (value){
+                            if(value.isEmpty){
+                              return 'Name is required.';
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 16,
@@ -163,17 +241,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           textInputType: TextInputType.phone,
                           maxLength: 10,
                           label: "Phone No.",
+                          validator: (value){
+                            if(value.isEmpty){
+                              return 'Phone Number is required.';
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 16,
                         ),
+                        if(widget.signInMethod == SignInMethod.email)
                         TextInputField(
                           controller: _emailInputController,
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Email is Required';
+                              return 'Email is required';
                             }
-
                             if (!RegExp(
                                     r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
                                 .hasMatch(value)) {
@@ -182,17 +265,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             if (e == 1) {
                               return 'This Email is already used';
                             }
-
                             return null;
                           },
                           textInputType: TextInputType.emailAddress,
                           label: "Email ID",
                         ),
-                        if (!widget.isGoogleSignin)
+                          if(widget.signInMethod == SignInMethod.email)
                           SizedBox(
                             height: 16,
                           ),
-                        if (!widget.isGoogleSignin)
+                        if(widget.signInMethod == SignInMethod.email)
                           PasswordInputField(
                             controller: _pwdInputController,
                             label: "Password",
@@ -203,11 +285,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               return null;
                             },
                           ),
-                        if (!widget.isGoogleSignin)
                           SizedBox(
-                            height: 20,
+                            height: 16,
                           ),
-                        if (!widget.isGoogleSignin)
+                        if(widget.signInMethod == SignInMethod.email)
                           PasswordInputField(
                             controller: _confirmPwdInputController,
                             label: "Confirm Password",
@@ -224,56 +305,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         MyButton(
                           text: 'Create Account',
                           onPressed: () async {
-                            if (widget.isGoogleSignin) {
-                              print('DATA UPDATE STARTED');
-                              _firestore
-                                  .collection('users')
-                                  .doc(_auth.currentUser.uid)
-                                  .set({
-                                "uid": _auth.currentUser.uid,
-                                "name": _usernameInputController.text,
-                                "phoneNo": _phoneNoController.text,
-                                "email": _emailInputController.text,
-                                "isHirer": isHirer,
-                              }).then((value) {
-                                print('DATA UPDATED');
-
-                                setState(() {
-                                  showSpinner = false;
-                                });
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LocationScreen(
-                                        isHirer: isHirer,
-                                      ),
-                                      settings: RouteSettings(
-                                          name: 'Location Screen'),
-                                    ));
-                              });
-                              // .catchError((onError) {
-                              //   setState(() {
-                              //     showSpinner = false;
-                              //   });
-                              //   showDialog(
-                              //     context: context,
-                              //     builder: (BuildContext context) {
-                              //       return AlertDialog(
-                              //         title: Text("Error"),
-                              //         content: Text(onError.toString()),
-                              //         actions: <Widget>[
-                              //           FlatButton(
-                              //             child: Text("Close"),
-                              //             onPressed: () {
-                              //               Navigator.of(context).pop();
-                              //             },
-                              //           )
-                              //         ],
-                              //       );
-                              //     },
-                              //   );
-                              // });
-                            } else {
                               if (_pwdInputController.text !=
                                   _confirmPwdInputController.text) {
                                 showDialog(
@@ -300,50 +331,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               setState(() {
                                 showSpinner = true;
                               });
-                              _auth
-                                  .createUserWithEmailAndPassword(
-                                      email: _emailInputController.text,
-                                      password: _pwdInputController.text)
-                                  .then((currentUser) {
-                                print('DATA UPDATE STARTED');
-                                _firestore
-                                    .collection('users')
-                                    .doc(currentUser.user.uid)
-                                    .set({
-                                      "uid": currentUser.user.uid,
-                                      "name": _usernameInputController.text,
-                                      "phoneNo": _phoneNoController.text,
-                                      "email": _emailInputController.text,
-                                      "isHirer": isHirer,
-                                    })
-                                    .then((value) => print('DATA UPDATED'))
-                                    .catchError((onError) {
-                                      setState(() {
-                                        showSpinner = false;
-                                      });
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text("Error"),
-                                            content: Text(onError.toString()),
-                                            actions: <Widget>[
-                                              FlatButton(
-                                                child: Text("Close"),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    });
-                              }).then(
+
+                              createUser().then(
                                 (value) {
                                   setState(() {
                                     showSpinner = false;
                                   });
+                                  if(value)
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
@@ -354,50 +348,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             name: 'Location Screen'),
                                       ));
                                 },
-                              ).catchError((onError) {
-                                setState(() {
-                                  showSpinner = false;
-                                });
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text("Error"),
-                                      content: Text(onError.toString()),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Text("Close"),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        )
-                                      ],
-                                    );
-                                  },
-                                );
-                              }).catchError((onError) {
-                                setState(() {
-                                  showSpinner = false;
-                                });
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text("Error"),
-                                      content: Text(onError.toString()),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Text("Close"),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        )
-                                      ],
-                                    );
-                                  },
-                                );
-                              });
-                            }
+                              );
                           },
                         ),
                         SizedBox(

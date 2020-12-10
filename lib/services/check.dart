@@ -17,8 +17,9 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   AnimationController _animationController;
   AnimationController _animateController;
   bool iamhere = false;
+
   void check() async {
-    Future.delayed(Duration(milliseconds: 4000), () async {
+    Future.delayed(Duration(milliseconds: 3500), () async {
       if (FirebaseCurrentUser().currentUser == null) {
         Navigator.pushReplacement(
             context,
@@ -47,10 +48,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
     });
   }
 
-  @override
-  initState() {
-    super.initState();
-    check();
+  void animationInitializer(){
     _animateController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -77,6 +75,22 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       });
     });
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _animationController.dispose();
+    _animateController.dispose();
+  }
+
+  @override
+  initState() {
+    super.initState();
+    check();
+    animationInitializer();
+  }
+
 
   Widget build(BuildContext context) {
     final double _height = MediaQuery.of(context).size.height;

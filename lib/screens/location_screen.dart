@@ -1,5 +1,6 @@
 import 'package:work_today/components/my_button.dart';
 import 'package:work_today/screens/hirer_home.dart';
+import 'package:work_today/services/check.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +90,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HirerHome(),
+                          builder: (context) => Check(),
                         ));
                   else
                     Navigator.pushReplacement(

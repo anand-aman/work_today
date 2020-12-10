@@ -1,6 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:work_today/constants.dart';
 import 'package:work_today/screens/auth/login_screen.dart';
 import 'package:work_today/screens/auth/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:work_today/model/app_user.dart';
+import 'package:work_today/screens/category_screen.dart';
+import 'package:work_today/screens/hirer_home.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:work_today/services/check.dart';
+import 'package:work_today/services/firebase_user.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,136 +19,183 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool inAsyncCall = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.white,
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      'WORK TODAY',
-                      style: TextStyle(
-                        fontSize: 40.0,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF7F1CFF),
-                        letterSpacing: 2,
+          body: ModalProgressHUD(
+            inAsyncCall: inAsyncCall,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        'WORK TODAY',
+                        style: TextStyle(
+                          fontSize: 40.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF7F1CFF),
+                          letterSpacing: 2,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Hire Worker Instantly',
-                    style: TextStyle(
-                      color: Color(0xFF7F1CFF),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      letterSpacing: 1.0,
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Card(
-                          elevation: 5.0,
-                          color: Colors.white,
-                          child: FlatButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegistrationScreen(
-                                      isHire: true,
-                                    ),
-                                    settings: RouteSettings(name: 'Registration Screen'),
-                                  ));
-                            },
-                            child: Text(
-                              'HIRE',
-                              style: TextStyle(
-                                color: Color(0xFF7F1CFF),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                letterSpacing: 1.0,
+                    Text(
+                      'Hire Worker Instantly',
+                      style: TextStyle(
+                        color: Color(0xFF7F1CFF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Card(
+                            elevation: 5.0,
+                            color: Colors.white,
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RegistrationScreen(
+                                        isHire: true,
+                                      ),
+                                      settings: RouteSettings(name: 'Registration Screen'),
+                                    ));
+                              },
+                              child: Text(
+                                'HIRE',
+                                style: TextStyle(
+                                  color: Color(0xFF7F1CFF),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                  letterSpacing: 1.0,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Card(
-                          elevation: 5,
-                          color: Colors.white,
-                          child: FlatButton(
-                            onPressed: () {
+                        Expanded(
+                          child: Card(
+                            elevation: 5,
+                            color: Colors.white,
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RegistrationScreen(
+                                        isHire: false,
+                                        signInMethod: SignInMethod.email,
+                                      ),
+                                      settings: RouteSettings(name: 'Registration Screen'),
+                                    ));
+                              },
+                              child: Text(
+                                'WORK',
+                                style: TextStyle(
+                                  color: Color(0xFF7F1CFF),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Card(
+                            margin: EdgeInsets.all(10),
+                            elevation: 5,
+                            color: Colors.white,
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginScreen(),
+                                      settings: RouteSettings(name: 'Login Screen'),
+                                    ));
+                              },
+                              child: Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                  color: Color(0xFF7F1CFF),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    GoogleSignInButton(
+                      darkMode: false,
+                      centered: true,
+                      onPressed: ()async{
+                        setState(() {
+                          inAsyncCall=true;
+                        });
+                          await FirebaseCurrentUser().signInWithGoogle().then((user)async{
+                            DocumentSnapshot snapshot = await _firestore
+                                .collection('users')
+                                .doc(user.uid).get();
+                            setState(() {
+                              inAsyncCall=false;
+                            });
+
+                            if(snapshot.exists){
+                              print("User Exists");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Check(),
+                                  ));
+                            }
+                            else{
+                              print("User Does not exist");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => RegistrationScreen(
                                       isHire: false,
+                                      signInMethod: SignInMethod.google,
                                     ),
-                                    settings: RouteSettings(name: 'Registration Screen'),
+                                    settings: RouteSettings(name: 'Google Registration Screen'),
                                   ));
-                            },
-                            child: Text(
-                              'WORK',
-                              style: TextStyle(
-                                color: Color(0xFF7F1CFF),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                letterSpacing: 1.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Card(
-                          margin: EdgeInsets.all(10),
-                          elevation: 5,
-                          color: Colors.white,
-                          child: FlatButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LoginScreen(),
-                                    settings: RouteSettings(name: 'Login Screen'),
-                                  ));
-                            },
-                            child: Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                color: Color(0xFF7F1CFF),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                letterSpacing: 1.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                            }
+                          });
+
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
