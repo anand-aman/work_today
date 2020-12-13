@@ -10,7 +10,7 @@
 ## Checklist:
 Before you create this PR, confirm all the requirements listed below by checking the checkboxes like this (`[x]`).
 
-- [ ] I've checked there aren't other open [Pull Requests](https://github.com/raghavSharma1472/RecipeBookFlutter/issues) for the same update/change?
+- [ ] I've checked there aren't other open [Pull Requests](https://github.com/anand-aman/work_today/issues) for the same update/change?
 - [ ] I've made corresponding changes to the documentation?
 - [ ] My submission doesn't break any existing feature.
 - [ ] I've tested this code locally before submission?
