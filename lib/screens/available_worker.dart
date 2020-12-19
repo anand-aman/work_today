@@ -38,6 +38,7 @@ class AvailableWorker extends StatelessWidget {
               ),
               Text("Available $category",
                   style: TextStyle(
+                    fontFamily: 'Indie',
                       fontSize: 50.0,
                       fontWeight: FontWeight.w500,
                       wordSpacing: 2.5,

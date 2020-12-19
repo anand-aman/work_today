@@ -49,9 +49,10 @@ class _LocationScreenState extends State<LocationScreen> {
               ),
             ),
             FlatButton(
-              minWidth: 100.0,
+
               padding: EdgeInsets.all(8.0),
               color: Color(0xFFB57DFF),
+
               child: Column(
                 children: <Widget>[
                   Icon(

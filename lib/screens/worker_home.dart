@@ -59,8 +59,10 @@ class WorkerHome extends StatelessWidget {
             ),
             Text("Hii ${FirebaseCurrentUser.appUser.name},\nHere Are Your Requests",
                 style: TextStyle(
+                    fontFamily: 'FV_ALMELO',
+
                     fontSize: 23,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w900,
                     wordSpacing: 2.5,
                     color: Colors.black)),
             SizedBox(

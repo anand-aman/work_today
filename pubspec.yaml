@@ -33,10 +33,18 @@ flutter:
     - images/
 
   fonts:
-    - family: FV_ALMELO
+    - family: 'FV_ALMELO'
       fonts:
         - asset: assets/fonts/FV_almelo.ttf
 
-    - family: OleoScript
+    - family: 'OleoScript'
       fonts:
         - asset: fonts/OleoScript-Regular.ttf
+
+    - family: 'Indie'
+      fonts:
+        - asset: fonts/IndieFlower-Regular.ttf
+
+    - family: 'Dancing'
+      fonts:
+        - asset: fonts/DancingScript-Regular.ttf

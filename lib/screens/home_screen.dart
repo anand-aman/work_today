@@ -38,8 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(
                         'WORK TODAY',
                         style: TextStyle(
+                          fontFamily: 'Dancing',
                           fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w900,
                           color: Color(0xFF7F1CFF),
                           letterSpacing: 2,
                         ),
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         color: Color(0xFF7F1CFF),
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 17,
                         letterSpacing: 1.0,
                       ),
                     ),
