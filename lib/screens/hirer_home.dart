@@ -64,6 +64,7 @@ class HirerHome extends StatelessWidget {
             Text(
                 "Hii ${FirebaseCurrentUser.appUser.name},\nWhat Are You Looking For",
                 style: TextStyle(
+                  fontFamily: 'FV_ALMELO',
                     fontSize: 23,
                     fontWeight: FontWeight.w500,
                     wordSpacing: 2.5,
