@@ -6,7 +6,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.8.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -20,6 +20,9 @@ dependencies:
   google_sign_in: ^4.5.6
   geolocator: ^5.3.1
   flutter_auth_buttons: ^0.10.0
+  firebase_messaging: ^7.0.3
+  theme_provider: ^0.4.0+1
+
 
 dev_dependencies:
   flutter_test:
@@ -35,7 +38,7 @@ flutter:
   fonts:
     - family: 'FV_ALMELO'
       fonts:
-        - asset: assets/fonts/FV_almelo.ttf
+        - asset: assets/fonts/FV_Almelo.ttf
 
     - family: 'OleoScript'
       fonts:

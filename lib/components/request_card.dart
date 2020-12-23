@@ -7,8 +7,9 @@ final _firestore = FirebaseFirestore.instance;
 
 class HirerRequestCard extends StatelessWidget {
   final RequestWorker requestWorker;
+  final bool isdark;
 
-  const HirerRequestCard({Key key, this.requestWorker}) : super(key: key);
+  const HirerRequestCard({Key key, this.requestWorker, this.isdark}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -18,6 +19,8 @@ class HirerRequestCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
+      color: this.isdark? Colors.grey: Colors.white,
+
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
         title: Text("${requestWorker.workerName}", style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w400),),
@@ -52,11 +55,13 @@ class HirerRequestCard extends StatelessWidget {
 
 class WorkerRequestCard extends StatelessWidget {
   final RequestHirer hirerRequest;
+  final bool isdark;
 
-  const WorkerRequestCard({Key key, this.hirerRequest}) : super(key: key);
+  const WorkerRequestCard({Key key, this.hirerRequest, this.isdark}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: this.isdark? Colors.grey: Colors.white,
       elevation: 2.0,
       margin: EdgeInsets.only(right: 18.0, top: 15.0),
       shape: RoundedRectangleBorder(

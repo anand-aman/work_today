@@ -9,6 +9,8 @@ import 'package:work_today/screens/category_screen.dart';
 import 'package:work_today/screens/hirer_home.dart';
 
 class Check extends StatefulWidget {
+    bool isdark;
+   Check({this.isdark});
   @override
   _CheckState createState() => _CheckState();
 }
@@ -19,12 +21,14 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   bool iamhere = false;
 
   void check() async {
-    Future.delayed(Duration(milliseconds: 3500), () async {
+    Future.delayed(Duration(milliseconds: 4000), () async {
       if (FirebaseCurrentUser().currentUser == null) {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => HomeScreen(
+                isdark: widget.isdark,
+              ),
               settings: RouteSettings(name: 'Sign In Screen'),
             ));
       } else {
@@ -36,13 +40,17 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => WorkerHome(),
+                builder: (context) => WorkerHome(
+                  isdark: widget.isdark,
+                ),
               ));
         else
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HirerHome(),
+                builder: (context) => HirerHome(
+                  isdark: widget.isdark,
+                ),
               ));
       }
     });

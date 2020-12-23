@@ -12,8 +12,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CategoryScreen extends StatefulWidget {
 
   final bool isHirer;
+  final bool isdark;
 
-  const CategoryScreen({Key key, this.isHirer}) : super(key: key);
+  const CategoryScreen({Key key, this.isHirer, this.isdark}) : super(key: key);
 
   @override
   _CategoryScreenState createState() => _CategoryScreenState();
@@ -26,7 +27,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: widget.isdark?Colors.grey[850]:Colors.grey,
       body: SafeArea(
         child: Stack(
           children: [
@@ -35,6 +36,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               itemBuilder: (BuildContext context, int index) {
                 bool isSelected = false;
                 return CategoryCard(
+                  isdark: widget.isdark,
                   text: category.categoryList[index],
                   isSelected: category.categoryBool[index],
                   onPress: () {
@@ -43,7 +45,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AvailableWorker(category: category.categoryList[index],),
+                            builder: (context) => AvailableWorker(
+                              isdark: widget.isdark,
+                              category: category.categoryList[index],),
                           ));
                     }
                     else{
@@ -67,7 +71,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Check(),
+                          builder: (context) => Check(
+                            isdark: widget.isdark,
+                          ),
                         ));
                   });
                 },

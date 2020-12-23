@@ -10,6 +10,8 @@ import 'package:work_today/components/input_field.dart';
 import 'package:work_today/services/firebase_user.dart';
 
 class LoginScreen extends StatefulWidget {
+  final bool isdark;
+  const LoginScreen({this.isdark});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -35,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: widget.isdark? Colors.grey[850]:Colors.white,
       body: SafeArea(
         child: ModalProgressHUD(
           inAsyncCall: showSpinner,
@@ -68,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 35,
-                          color: const Color(0xff404040),
+                          color: widget.isdark?Colors.white:const Color(0xff404040),
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.left,
@@ -124,7 +126,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Check(),
+                                    builder: (context) => Check(
+                                      isdark: widget.isdark,
+                                    ),
                                   ));
                             }
                           } catch (err) {

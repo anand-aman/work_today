@@ -11,11 +11,13 @@ class CategoryCard extends StatelessWidget {
     @required this.onPress,
     this.isSelected,
     this.text,
+    this.isdark,
   });
 
   final Function onPress;
   final String text;
   final bool isSelected;
+  final bool isdark;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class CategoryCard extends StatelessWidget {
         margin: EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+          color: this.isdark?Colors.grey: Colors.white,
         ),
       ),
     );
