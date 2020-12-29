@@ -17,9 +17,10 @@ final _firestore = FirebaseFirestore.instance;
 
 class RegistrationScreen extends StatefulWidget {
   final bool isHire;
+  final bool isdark;
   final SignInMethod signInMethod;
 
-  const RegistrationScreen({Key key, this.isHire, this.signInMethod,})
+  const RegistrationScreen({Key key, this.isHire, this.isdark, this.signInMethod,})
       : super(key: key);
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -141,7 +142,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: widget.isdark?Colors.grey[900]:Colors.white,
       body: SafeArea(
         child: ModalProgressHUD(
           inAsyncCall: showSpinner,
@@ -176,7 +177,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 35,
-                          color: const Color(0xff404040),
+                          color: widget.isdark? Colors.white : const Color(0xff404040),
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.left,
@@ -204,7 +205,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   });
                                 },
                                 buttonColor:
-                                    isHirer ? Color(0xff7f1cff) : Colors.white,
+                                    isHirer ? Color(0xff7f1cff) : widget.isdark?Colors.grey[850]:Colors.white,
                                 width: 100.0,
                               ),
                               MyButton(
@@ -215,7 +216,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   });
                                 },
                                 buttonColor:
-                                    isHirer ? Colors.white : Color(0xff7f1cff),
+                                    isHirer ? widget.isdark? Colors.grey[850] :Colors.white: Color(0xff7f1cff),
                                 width: 100.0,
                               ),
                             ],
@@ -343,6 +344,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       MaterialPageRoute(
                                         builder: (context) => LocationScreen(
                                           isHirer: isHirer,
+                                          isdark : widget.isdark,
                                         ),
                                         settings: RouteSettings(
                                             name: 'Location Screen'),

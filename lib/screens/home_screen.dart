@@ -14,18 +14,47 @@ import 'package:work_today/services/firebase_user.dart';
 final _firestore = FirebaseFirestore.instance;
 
 class HomeScreen extends StatefulWidget {
+  bool isdark;
+  HomeScreen({this.isdark});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool inAsyncCall = false;
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: widget.isdark?ThemeData.dark():ThemeData.light().copyWith(primaryColor:  Colors.white),
       home: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          appBar: AppBar(
+            centerTitle: false,
+            elevation: 0,
+            actions: [
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+
+                  child:Icon(Icons.brightness_4_outlined,color: Colors.deepPurple,size: 30.0, ) ,
+                  onTap: (){
+                    setState(() {
+                      widget.isdark = !widget.isdark;
+                    });
+                  },
+                ),
+              )
+
+
+
+            ],
+
+
+          ),
+          backgroundColor: widget.isdark?Colors.grey[900]:Colors.white,
           body: ModalProgressHUD(
             inAsyncCall: inAsyncCall,
             child: Column(
@@ -67,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           child: Card(
                             elevation: 5.0,
-                            color: Colors.white,
+                            color: widget.isdark?Colors.black12: Colors.white,
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.push(
@@ -75,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => RegistrationScreen(
                                         isHire: true,
+                                        isdark: widget.isdark,
                                       ),
                                       settings: RouteSettings(name: 'Registration Screen'),
                                     ));
@@ -94,13 +124,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           child: Card(
                             elevation: 5,
-                            color: Colors.white,
+                            color: widget.isdark?Colors.black12: Colors.white,
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => RegistrationScreen(
+                                        isdark: widget.isdark,
                                         isHire: false,
                                         signInMethod: SignInMethod.email,
                                       ),
@@ -127,13 +158,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Card(
                             margin: EdgeInsets.all(10),
                             elevation: 5,
-                            color: Colors.white,
+                            color: widget.isdark?Colors.black12: Colors.white,
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LoginScreen(),
+                                      builder: (context) => LoginScreen(
+                                        isdark : widget.isdark,
+                                      ),
                                       settings: RouteSettings(name: 'Login Screen'),
                                     ));
                               },
@@ -155,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 30,
                     ),
                     GoogleSignInButton(
-                      darkMode: false,
+                      darkMode: true,
                       centered: true,
                       onPressed: ()async{
                         setState(() {
@@ -174,7 +207,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Check(),
+                                    builder: (context) => Check(
+                                      isdark: widget.isdark,
+                                    ),
                                   ));
                             }
                             else{
