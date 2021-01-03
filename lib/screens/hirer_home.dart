@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:work_today/components/my_button.dart';
 import 'package:work_today/components/request_card.dart';
 import 'package:work_today/screens/category_screen.dart';
+import 'package:work_today/screens/userprofile.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:flutter/material.dart';
 import 'package:work_today/model/request.dart';
@@ -47,6 +48,18 @@ class _HirerHomeState extends State<HirerHome> {
           ),
         ),
         actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: GestureDetector(
+
+              child:Icon(Icons.account_circle_outlined,color: Colors.deepPurple,size: 30.0, ) ,
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(
+                  isdark: widget.isdark,
+                )));
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(3.0),
             child: GestureDetector(

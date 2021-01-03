@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:work_today/components/request_card.dart';
 import 'package:work_today/model/request.dart';
+import 'package:work_today/screens/userprofile.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
@@ -40,7 +41,20 @@ class _WorkerHomeState extends State<WorkerHome> {
             onPressed: () {},
           ),
         ),
-        actions: <Widget>[Padding(
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: GestureDetector(
+
+              child:Icon(Icons.account_circle_outlined,color: Colors.deepPurple,size: 30.0, ) ,
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(
+                  isdark: widget.isdark,
+                )));
+              },
+            ),
+          ),
+          Padding(
           padding: const EdgeInsets.all(3.0),
           child: GestureDetector(
 
@@ -52,6 +66,7 @@ class _WorkerHomeState extends State<WorkerHome> {
             },
           ),
         ),
+
 //          Icon(Icons.supervised_user_circle, size: 25.0, color: Colors.black),
 
           FlatButton(
