@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:work_today/services/firebase_user.dart';
 
-class UserProfile extends StatefulWidget {
+class ownProfile extends StatefulWidget {
   final bool isdark;
-  final Name ;
-  final job;
-  final location;
-  final int amount;
-  final bool category;
-  final String email;
-  final String phoneNo;
-  const UserProfile({this.isdark,this.Name, this.job, this.location, this.amount, this.phoneNo, this.email, this.category});
+  const ownProfile({this.isdark});
   @override
-  _UserProfileState createState() => _UserProfileState();
+  _ownProfileState createState() => _ownProfileState();
 }
 
-class _UserProfileState extends State<UserProfile> {
+class _ownProfileState extends State<ownProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +23,7 @@ class _UserProfileState extends State<UserProfile> {
             Icon(
 
                 Icons.account_circle,
-              color: Colors.white),
+                color: Colors.white),
             Text("User Profile")
           ],
 
@@ -55,23 +48,24 @@ class _UserProfileState extends State<UserProfile> {
                 SizedBox(height: 16),
                 Container(
                   alignment: Alignment.center,
-                  child: Text("${widget.Name}", style: TextStyle(
+                  child: Text("${FirebaseCurrentUser.appUser.name}", style: TextStyle(
                       color: Color(0xff7f1cff),
                       fontSize: 32
                   ),),
                 ),
                 SizedBox(height: 32),
+
                 Card(
                     color: Colors.black12,
                     margin:
                     EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                     child: ListTile(
                       leading: Icon(
-                        Icons.email_outlined,
+                        Icons.email,
                         color: Color(0xff7f1cff),
                       ),
                       title: Text(
-                        "${widget.email}",
+                        "${FirebaseCurrentUser.appUser.email}",
                         style:
                         TextStyle(fontFamily: '',
                             color: Color(0xff7f1cff),
@@ -84,19 +78,18 @@ class _UserProfileState extends State<UserProfile> {
                     EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                     child: ListTile(
                       leading: Icon(
-                        Icons.phone,
+                        Icons.phone_android,
                         color: Color(0xff7f1cff),
                       ),
                       title: Text(
-                        "${widget.phoneNo}",
+                        "${FirebaseCurrentUser.appUser.phoneNo}",
                         style:
                         TextStyle(fontFamily: '',
                             color: Color(0xff7f1cff),
                             fontSize: 20.0),
                       ),
-                    )),
-
-
+                    )
+                ),
                 Card(
                     color: Colors.black12,
                     margin:
@@ -107,7 +100,7 @@ class _UserProfileState extends State<UserProfile> {
                         color: Color(0xff7f1cff),
                       ),
                       title: Text(
-                        "${widget.location}",
+                        "${FirebaseCurrentUser.appUser.location}",
                         style:
                         TextStyle(fontFamily: '',
                             color: Color(0xff7f1cff),
@@ -125,7 +118,7 @@ class _UserProfileState extends State<UserProfile> {
                         color: Color(0xff7f1cff),
                       ),
                       title: Text(
-                        widget.category?"Hirer": "Worker",
+                        FirebaseCurrentUser.appUser.isHirer?"Hirer": "Worker",
                         style:
                         TextStyle(fontFamily: '',
                             color: Color(0xff7f1cff),
@@ -134,7 +127,24 @@ class _UserProfileState extends State<UserProfile> {
                     )
                 ),
 
-
+                Card(
+                    color: Colors.black12,
+                    margin:
+                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.category_outlined,
+                        color: Color(0xff7f1cff),
+                      ),
+                      title: Text(
+                        "${FirebaseCurrentUser.appUser.category}",
+                        style:
+                        TextStyle(fontFamily: '',
+                            color: Color(0xff7f1cff),
+                            fontSize: 20.0),
+                      ),
+                    )
+                ),
 
               ],
             ),
@@ -146,3 +156,4 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 }
+

@@ -61,6 +61,8 @@ class _WorkerCardState extends State<WorkerCard> {
               "location": hirer.location,
               "offer": 500,
               "isAccepted": false,
+              "email": hirer.email,
+              "phoneNo": hirer.phoneNo,
             }).then((value) => value.id);
 
             await _firestore
@@ -73,6 +75,8 @@ class _WorkerCardState extends State<WorkerCard> {
               "offer": 500,
               "requestid": requestDocID,
               "isAccepted": false,
+              "email": worker.email,
+              "phoneNo": worker.phoneNo,
             }).then((value){
               _firestore
                   .collection('users')

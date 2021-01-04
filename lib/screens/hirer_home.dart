@@ -12,6 +12,7 @@ import 'package:work_today/model/request.dart';
 import 'package:work_today/screens/available_worker.dart';
 import 'dart:async';
 import 'home_screen.dart';
+import 'ownProfile.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -54,7 +55,7 @@ class _HirerHomeState extends State<HirerHome> {
 
               child:Icon(Icons.account_circle_outlined,color: Colors.deepPurple,size: 30.0, ) ,
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ownProfile(
                   isdark: widget.isdark,
                 )));
               },
@@ -176,6 +177,8 @@ class _RequestStreamState extends State<RequestStream> {
             job: data['job'],
             isAccepted: data['isAccepted'],
             amount: data['offer'],
+            email: data['email'],
+            phoneNo: data['phoneNo'],
           );
 
           requestCardList.add(HirerRequestCard(

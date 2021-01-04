@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:work_today/components/request_card.dart';
 import 'package:work_today/model/request.dart';
+import 'package:work_today/screens/ownProfile.dart';
 import 'package:work_today/screens/userprofile.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _WorkerHomeState extends State<WorkerHome> {
 
               child:Icon(Icons.account_circle_outlined,color: Colors.deepPurple,size: 30.0, ) ,
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ownProfile(
                   isdark: widget.isdark,
                 )));
               },
@@ -154,6 +155,8 @@ class _RequestStreamState extends State<RequestStream> {
           job: data['job'],
           isAccepted: data['isAccepted'],
           amount: data['offer'],
+          email: data['email'],
+          phoneNo: data['phoneNo'],
         );
 
         requestCardList.add(WorkerRequestCard(
