@@ -86,10 +86,9 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     _animationController.dispose();
     _animateController.dispose();
+    super.dispose();
   }
 
   @override
@@ -101,6 +100,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
 
 
   Widget build(BuildContext context) {
+    //Color(0xff383844)
     final double _height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xfff7ab37),
@@ -112,7 +112,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
               height: 1000 * (_animateController.value),
               width: 1000 * (_animateController.value),
               decoration: BoxDecoration(
-                color: Color(0xff383844),
+                color: Colors.white60,
                 borderRadius:
                     BorderRadius.circular((1 - _animateController.value) * 600),
               ),

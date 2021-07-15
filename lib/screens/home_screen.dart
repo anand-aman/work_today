@@ -105,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       builder: (context) => RegistrationScreen(
                                         isHire: true,
                                         isdark: widget.isdark,
+                                        signInMethod: SignInMethod.email,
                                       ),
                                       settings: RouteSettings(name: 'Registration Screen'),
                                     ));
