@@ -188,47 +188,47 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 30,
                     ),
-                    GoogleSignInButton(
-                      darkMode: true,
-                      centered: true,
-                      onPressed: ()async{
-                        setState(() {
-                          inAsyncCall=true;
-                        });
-                          await FirebaseCurrentUser().signInWithGoogle().then((user)async{
-                            DocumentSnapshot snapshot = await _firestore
-                                .collection('users')
-                                .doc(user.uid).get();
-                            setState(() {
-                              inAsyncCall=false;
-                            });
-
-                            if(snapshot.exists){
-                              print("User Exists");
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Check(
-                                      isdark: widget.isdark,
-                                    ),
-                                  ));
-                            }
-                            else{
-                              print("User Does not exist");
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegistrationScreen(
-                                      isHire: false,
-                                      signInMethod: SignInMethod.google,
-                                    ),
-                                    settings: RouteSettings(name: 'Google Registration Screen'),
-                                  ));
-                            }
-                          });
-
-                      },
-                    ),
+                    // GoogleSignInButton(
+                    //   darkMode: true,
+                    //   centered: true,
+                    //   onPressed: ()async{
+                    //     setState(() {
+                    //       inAsyncCall=true;
+                    //     });
+                    //       await FirebaseCurrentUser().signInWithGoogle().then((user)async{
+                    //         DocumentSnapshot snapshot = await _firestore
+                    //             .collection('users')
+                    //             .doc(user.uid).get();
+                    //         setState(() {
+                    //           inAsyncCall=false;
+                    //         });
+                    //
+                    //         if(snapshot.exists){
+                    //           print("User Exists");
+                    //           Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                 builder: (context) => Check(
+                    //                   isdark: widget.isdark,
+                    //                 ),
+                    //               ));
+                    //         }
+                    //         else{
+                    //           print("User Does not exist");
+                    //           Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                 builder: (context) => RegistrationScreen(
+                    //                   isHire: false,
+                    //                   signInMethod: SignInMethod.google,
+                    //                 ),
+                    //                 settings: RouteSettings(name: 'Google Registration Screen'),
+                    //               ));
+                    //         }
+                    //       });
+                    //
+                    //   },
+                    // ),
                   ],
                 ),
               ],
