@@ -12,8 +12,9 @@ import 'category_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   final bool isHirer;
+  final bool isdark;
 
-  const LocationScreen({Key key, this.isHirer}) : super(key: key);
+  const LocationScreen({Key key, this.isHirer, this.isdark}) : super(key: key);
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
@@ -32,7 +33,7 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFFFFFF),
+      backgroundColor: widget.isdark?Colors.grey[850]:Color(0xffFFFFFF),
       body: Container(
         width: double.infinity,
         child: Column(
@@ -49,9 +50,10 @@ class _LocationScreenState extends State<LocationScreen> {
               ),
             ),
             FlatButton(
-              minWidth: 100.0,
+
               padding: EdgeInsets.all(8.0),
               color: Color(0xFFB57DFF),
+
               child: Column(
                 children: <Widget>[
                   Icon(
@@ -90,13 +92,15 @@ class _LocationScreenState extends State<LocationScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Check(),
+                          builder: (context) => Check(
+                            isdark: widget.isdark,
+                          ),
                         ));
                   else
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CategoryScreen(isHirer: false,),
+                          builder: (context) => CategoryScreen(isHirer: false,isdark:widget.isdark,),
                         ));
                 });
               },

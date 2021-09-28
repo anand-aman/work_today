@@ -9,12 +9,16 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  bool isdark = false;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Dartist',
-      home: Check(),
+      home: Check(
+        isdark: this.isdark,
+      ),
     );
   }
 }

@@ -9,7 +9,8 @@ final _firestore = FirebaseFirestore.instance;
 
 class AvailableWorker extends StatelessWidget {
   final String category;
-  AvailableWorker({Key key, this.category}) : super(key: key);
+  final bool isdark;
+  AvailableWorker({Key key, this.category, this.isdark}) : super(key: key);
 
   List<String> availableUserID = [];
 
@@ -26,7 +27,7 @@ class AvailableWorker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF6F6F6),
+      backgroundColor: this.isdark?Colors.grey[850]:Color(0xFFF6F6F6),
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.only(left: 18.0),
@@ -38,6 +39,7 @@ class AvailableWorker extends StatelessWidget {
               ),
               Text("Available $category",
                   style: TextStyle(
+                    fontFamily: 'Indie',
                       fontSize: 50.0,
                       fontWeight: FontWeight.w500,
                       wordSpacing: 2.5,
@@ -72,7 +74,7 @@ class AvailableWorker extends StatelessWidget {
                     String username = data['name'];
                     print(username);
                     String city = data['city'];
-                    workerWidgetList.add(WorkerCard(workerName: username, location: city, job: category, workerId: job.id,));
+                    workerWidgetList.add(WorkerCard(workerName: username, location: city, job: category, workerId: job.id, isdark: this.isdark,));
 
 
                   }

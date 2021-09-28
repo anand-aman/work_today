@@ -33,7 +33,7 @@
 
 - Create an issue
 - Get it assigned
-- Work on it
+- Start working after it is assigned
 - Create pull request and mention the issue number with '#'
 - Make changes if required
 

@@ -8,8 +8,9 @@ class WorkerCard extends StatefulWidget {
   final String location;
   final String workerId;
   final String job;
+  final bool isdark;
 
-  const WorkerCard({Key key, this.workerName, this.location, this.workerId, this.job}) : super(key: key);
+  const WorkerCard({Key key, this.workerName, this.location, this.workerId, this.job, this.isdark}) : super(key: key);
   @override
   _WorkerCardState createState() => _WorkerCardState();
 }
@@ -23,6 +24,8 @@ class _WorkerCardState extends State<WorkerCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: widget.isdark?Colors.grey:Colors.white,
+
       elevation: 0.0,
       margin: EdgeInsets.only(right: 18.0, top: 15.0),
       shape: RoundedRectangleBorder(
@@ -58,6 +61,8 @@ class _WorkerCardState extends State<WorkerCard> {
               "location": hirer.location,
               "offer": 500,
               "isAccepted": false,
+              "email": hirer.email,
+              "phoneNo": hirer.phoneNo,
             }).then((value) => value.id);
 
             await _firestore
@@ -70,6 +75,8 @@ class _WorkerCardState extends State<WorkerCard> {
               "offer": 500,
               "requestid": requestDocID,
               "isAccepted": false,
+              "email": worker.email,
+              "phoneNo": worker.phoneNo,
             }).then((value){
               _firestore
                   .collection('users')

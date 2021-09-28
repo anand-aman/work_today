@@ -14,18 +14,47 @@ import 'package:work_today/services/firebase_user.dart';
 final _firestore = FirebaseFirestore.instance;
 
 class HomeScreen extends StatefulWidget {
+  bool isdark;
+  HomeScreen({this.isdark});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool inAsyncCall = false;
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: widget.isdark?ThemeData.dark():ThemeData.light().copyWith(primaryColor:  Colors.white),
       home: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.white,
+          appBar: AppBar(
+            centerTitle: false,
+            elevation: 0,
+            actions: [
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+
+                  child:Icon(Icons.brightness_4_outlined,color: Colors.deepPurple,size: 30.0, ) ,
+                  onTap: (){
+                    setState(() {
+                      widget.isdark = !widget.isdark;
+                    });
+                  },
+                ),
+              )
+
+
+
+            ],
+
+
+          ),
+          backgroundColor: widget.isdark?Colors.grey[900]:Colors.white,
           body: ModalProgressHUD(
             inAsyncCall: inAsyncCall,
             child: Column(
@@ -38,8 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(
                         'WORK TODAY',
                         style: TextStyle(
+                          fontFamily: 'Dancing',
                           fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w900,
                           color: Color(0xFF7F1CFF),
                           letterSpacing: 2,
                         ),
@@ -53,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         color: Color(0xFF7F1CFF),
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 17,
                         letterSpacing: 1.0,
                       ),
                     ),
@@ -66,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           child: Card(
                             elevation: 5.0,
-                            color: Colors.white,
+                            color: widget.isdark?Colors.black12: Colors.white,
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.push(
@@ -74,6 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => RegistrationScreen(
                                         isHire: true,
+                                        isdark: widget.isdark,
+                                        signInMethod: SignInMethod.email,
                                       ),
                                       settings: RouteSettings(name: 'Registration Screen'),
                                     ));
@@ -93,13 +125,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           child: Card(
                             elevation: 5,
-                            color: Colors.white,
+                            color: widget.isdark?Colors.black12: Colors.white,
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => RegistrationScreen(
+                                        isdark: widget.isdark,
                                         isHire: false,
                                         signInMethod: SignInMethod.email,
                                       ),
@@ -126,13 +159,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Card(
                             margin: EdgeInsets.all(10),
                             elevation: 5,
-                            color: Colors.white,
+                            color: widget.isdark?Colors.black12: Colors.white,
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LoginScreen(),
+                                      builder: (context) => LoginScreen(
+                                        isdark : widget.isdark,
+                                      ),
                                       settings: RouteSettings(name: 'Login Screen'),
                                     ));
                               },
@@ -153,45 +188,47 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 30,
                     ),
-                    GoogleSignInButton(
-                      darkMode: false,
-                      centered: true,
-                      onPressed: ()async{
-                        setState(() {
-                          inAsyncCall=true;
-                        });
-                          await FirebaseCurrentUser().signInWithGoogle().then((user)async{
-                            DocumentSnapshot snapshot = await _firestore
-                                .collection('users')
-                                .doc(user.uid).get();
-                            setState(() {
-                              inAsyncCall=false;
-                            });
-
-                            if(snapshot.exists){
-                              print("User Exists");
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Check(),
-                                  ));
-                            }
-                            else{
-                              print("User Does not exist");
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegistrationScreen(
-                                      isHire: false,
-                                      signInMethod: SignInMethod.google,
-                                    ),
-                                    settings: RouteSettings(name: 'Google Registration Screen'),
-                                  ));
-                            }
-                          });
-
-                      },
-                    ),
+                    // GoogleSignInButton(
+                    //   darkMode: true,
+                    //   centered: true,
+                    //   onPressed: ()async{
+                    //     setState(() {
+                    //       inAsyncCall=true;
+                    //     });
+                    //       await FirebaseCurrentUser().signInWithGoogle().then((user)async{
+                    //         DocumentSnapshot snapshot = await _firestore
+                    //             .collection('users')
+                    //             .doc(user.uid).get();
+                    //         setState(() {
+                    //           inAsyncCall=false;
+                    //         });
+                    //
+                    //         if(snapshot.exists){
+                    //           print("User Exists");
+                    //           Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                 builder: (context) => Check(
+                    //                   isdark: widget.isdark,
+                    //                 ),
+                    //               ));
+                    //         }
+                    //         else{
+                    //           print("User Does not exist");
+                    //           Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                 builder: (context) => RegistrationScreen(
+                    //                   isHire: false,
+                    //                   signInMethod: SignInMethod.google,
+                    //                 ),
+                    //                 settings: RouteSettings(name: 'Google Registration Screen'),
+                    //               ));
+                    //         }
+                    //       });
+                    //
+                    //   },
+                    // ),
                   ],
                 ),
               ],
