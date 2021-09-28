@@ -14,9 +14,9 @@ assignees: ''
 *Remove this line and tell us why your fix/feature is necessary*
 
 ## Implementation:
-*Remove this line and give a brief how you are going to implement it*
+*Remove this line and give a brief on how you are going to implement it*
 
 ## Screenshot:
-*Add a scrrenshot (if required) or just write 'not required'*
+*Add a screenshot (if required) or just write 'not required'*
 
 **Remove this line and tag any maintainer like this -> @...**
