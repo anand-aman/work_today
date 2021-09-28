@@ -7,11 +7,11 @@ assignees: ''
 
 ---
 
-## Desciption:
+## Description:
 *Remove this line and describe what are you trying to fix or add as a new feature*
 
-## Why is this needed to be done?
-*Remove this line and tell us why your fix/feature is necessary*
+## Why is this required?
+*Remove this line and tell us why your fix/feature is required*
 
 ## Implementation:
 *Remove this line and give a brief on how you are going to implement it*
