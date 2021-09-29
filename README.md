@@ -34,7 +34,7 @@
 - Create an issue
 - Get it assigned
 - Start working after it is assigned
-- Create pull request for 'hacktoberfest' branch and mention the issue number with '#'
+- Create a pull request for 'hacktoberfest' branch and mention the issue number with '#'
 
 ## Screenshots
 
