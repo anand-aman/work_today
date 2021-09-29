@@ -33,7 +33,7 @@
 
 - Create an issue
 - Get it assigned
-- Start working after it is assigned
+- Pull the latest code and start working after it is assigned
 - Create a pull request for 'hacktoberfest' branch and mention the issue number with '#'
 
 ## Screenshots
