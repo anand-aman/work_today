@@ -24,8 +24,7 @@ class MyButton extends StatelessWidget {
         child: Container(
           height: 50,
           decoration: BoxDecoration(
-              color: buttonColor ?? Color.fromRGBO(56, 56, 68, 1),
-              // Color.fromRGBO(246, 171, 54, 1)
+              color: buttonColor ?? Color(0xff7f1cff),
               borderRadius: BorderRadius.circular(10)),
           child: Center(
             child: Text(
@@ -68,8 +67,7 @@ class SmallButton extends StatelessWidget {
         child: Container(
           height: 5,
           decoration: BoxDecoration(
-              color: buttonColor ?? Color.fromRGBO(56, 56, 68, 1),
-              // Color.fromRGBO(246, 171, 54, 1)
+              color: buttonColor ?? Colors.purple,
               borderRadius: BorderRadius.circular(10)),
           child: Center(
             child: Text(

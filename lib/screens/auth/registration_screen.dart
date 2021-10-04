@@ -224,7 +224,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 text: "Hire",
                                 onPressed: () {},
                                 buttonColor: isHirer
-                                    ? Color.fromRGBO(56, 56, 68, 1)
+                                    ?  Color(0xff7f1cff)
                                     : widget.isdark
                                         ? Colors.grey[850]
                                         : Colors.white,
@@ -255,7 +255,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     ? widget.isdark
                                         ? Colors.grey[850]
                                         : Colors.white
-                                    : Color.fromRGBO(56, 56, 68, 1),
+                                    :  Color(0xff7f1cff),
                                 width: 100.0,
                               ),
                             ],

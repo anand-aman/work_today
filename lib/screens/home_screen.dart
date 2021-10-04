@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     widget.isdark ? Icons.light_mode : Icons.dark_mode,
                     color: widget.isdark
                         ? Colors.white
-                        : Color.fromRGBO(56, 56, 68, 1),
+                        :  Color(0xff7f1cff),
                     size: 20.0,
                   ),
                   onTap: () {
@@ -151,9 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                        color: widget.isdark
-                            ? Colors.white
-                            : Color.fromRGBO(56, 56, 68, 1),
+                        color: widget.isdark ? Colors.white : Color(0xff7f1cff),
                         borderRadius: BorderRadius.circular(40)),
                     child: Center(
                       child: TextHelper(
