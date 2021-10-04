@@ -4,12 +4,7 @@ import 'package:work_today/constants.dart';
 import 'package:work_today/screens/auth/login_screen.dart';
 import 'package:work_today/screens/auth/registration_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:work_today/model/app_user.dart';
-import 'package:work_today/screens/category_screen.dart';
-import 'package:work_today/screens/hirer_home.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:work_today/services/check.dart';
-import 'package:work_today/services/firebase_user.dart';
+import 'package:work_today/widgets/text.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -23,217 +18,155 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool inAsyncCall = false;
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: widget.isdark?ThemeData.dark():ThemeData.light().copyWith(primaryColor:  Colors.white),
+      theme: widget.isdark
+          ? ThemeData.dark()
+          : ThemeData.light().copyWith(primaryColor: Colors.white),
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: widget.isdark ? Colors.grey[900] : Colors.white,
             centerTitle: false,
             elevation: 0,
             actions: [
-
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
-
-                  child:Icon(Icons.brightness_4_outlined,color: Colors.deepPurple,size: 30.0, ) ,
-                  onTap: (){
+                  child: Icon(
+                    widget.isdark ? Icons.light_mode : Icons.dark_mode,
+                    color: widget.isdark
+                        ? Colors.white
+                        :  Color(0xff7f1cff),
+                    size: 20.0,
+                  ),
+                  onTap: () {
                     setState(() {
                       widget.isdark = !widget.isdark;
                     });
                   },
                 ),
               )
-
-
-
             ],
-
-
           ),
-          backgroundColor: widget.isdark?Colors.grey[900]:Colors.white,
-          body: ModalProgressHUD(
-            inAsyncCall: inAsyncCall,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Text(
-                        'WORK TODAY',
-                        style: TextStyle(
-                          fontFamily: 'Dancing',
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF7F1CFF),
-                          letterSpacing: 2,
-                        ),
+          backgroundColor: widget.isdark ? Colors.grey[900] : Colors.white,
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 6,
+              ),
+              TextHelper(
+                weight: FontWeight.bold,
+                text: "Work Today",
+                size: 30,
+                color: widget.isdark
+                    ? Colors.white
+                    : Color.fromRGBO(56, 56, 68, 1),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              TextHelper(
+                text: "Hire workers instantly",
+                size: 20,
+                color: widget.isdark
+                    ? Colors.white
+                    : Color.fromRGBO(56, 56, 68, 1),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: Center(child: Image.asset("images/logo_bg_remove.png")),
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RegistrationScreen(
+                              isHire: true,
+                              isdark: widget.isdark,
+                              signInMethod: SignInMethod.email,
+                            ),
+                            settings:
+                                RouteSettings(name: 'Registration Screen'),
+                          ));
+                    },
+                    child: Center(
+                      child: TextHelper(
+                        weight: FontWeight.bold,
+                        text: "Hire | ",
+                        size: 18,
+                        color: widget.isdark ? Colors.white : Colors.black,
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Hire Worker Instantly',
-                      style: TextStyle(
-                        color: Color(0xFF7F1CFF),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                        letterSpacing: 1.0,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RegistrationScreen(
+                              isdark: widget.isdark,
+                              isHire: false,
+                              signInMethod: SignInMethod.email,
+                            ),
+                            settings:
+                                RouteSettings(name: 'Registration Screen'),
+                          ));
+                    },
+                    child: Center(
+                      child: TextHelper(
+                        weight: FontWeight.bold,
+                        text: "Work",
+                        size: 18,
+                        color: widget.isdark ? Colors.white : Colors.black,
                       ),
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(
+                          isdark: widget.isdark,
+                        ),
+                        settings: RouteSettings(name: 'Login Screen'),
+                      ));
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: 40, right: 40),
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: widget.isdark ? Colors.white : Color(0xff7f1cff),
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Center(
+                      child: TextHelper(
+                        text: "Get Started",
+                        size: 18,
+                        color: widget.isdark ? Colors.black : Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Card(
-                            elevation: 5.0,
-                            color: widget.isdark?Colors.black12: Colors.white,
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => RegistrationScreen(
-                                        isHire: true,
-                                        isdark: widget.isdark,
-                                        signInMethod: SignInMethod.email,
-                                      ),
-                                      settings: RouteSettings(name: 'Registration Screen'),
-                                    ));
-                              },
-                              child: Text(
-                                'HIRE',
-                                style: TextStyle(
-                                  color: Color(0xFF7F1CFF),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                  letterSpacing: 1.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Card(
-                            elevation: 5,
-                            color: widget.isdark?Colors.black12: Colors.white,
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => RegistrationScreen(
-                                        isdark: widget.isdark,
-                                        isHire: false,
-                                        signInMethod: SignInMethod.email,
-                                      ),
-                                      settings: RouteSettings(name: 'Registration Screen'),
-                                    ));
-                              },
-                              child: Text(
-                                'WORK',
-                                style: TextStyle(
-                                  color: Color(0xFF7F1CFF),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                  letterSpacing: 1.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Card(
-                            margin: EdgeInsets.all(10),
-                            elevation: 5,
-                            color: widget.isdark?Colors.black12: Colors.white,
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginScreen(
-                                        isdark : widget.isdark,
-                                      ),
-                                      settings: RouteSettings(name: 'Login Screen'),
-                                    ));
-                              },
-                              child: Text(
-                                'LOGIN',
-                                style: TextStyle(
-                                  color: Color(0xFF7F1CFF),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                  letterSpacing: 1.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    // GoogleSignInButton(
-                    //   darkMode: true,
-                    //   centered: true,
-                    //   onPressed: ()async{
-                    //     setState(() {
-                    //       inAsyncCall=true;
-                    //     });
-                    //       await FirebaseCurrentUser().signInWithGoogle().then((user)async{
-                    //         DocumentSnapshot snapshot = await _firestore
-                    //             .collection('users')
-                    //             .doc(user.uid).get();
-                    //         setState(() {
-                    //           inAsyncCall=false;
-                    //         });
-                    //
-                    //         if(snapshot.exists){
-                    //           print("User Exists");
-                    //           Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                 builder: (context) => Check(
-                    //                   isdark: widget.isdark,
-                    //                 ),
-                    //               ));
-                    //         }
-                    //         else{
-                    //           print("User Does not exist");
-                    //           Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                 builder: (context) => RegistrationScreen(
-                    //                   isHire: false,
-                    //                   signInMethod: SignInMethod.google,
-                    //                 ),
-                    //                 settings: RouteSettings(name: 'Google Registration Screen'),
-                    //               ));
-                    //         }
-                    //       });
-                    //
-                    //   },
-                    // ),
-                  ],
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
           ),
         ),
       ),
