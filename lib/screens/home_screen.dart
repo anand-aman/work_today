@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: widget.isdark?ThemeData.dark():ThemeData.light().copyWith(primaryColor:  Colors.white),
+      debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
