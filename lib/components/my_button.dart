@@ -7,13 +7,17 @@ class MyButton extends StatelessWidget {
   final Color buttonColor;
 
   const MyButton(
-      {Key key, @required this.text, @required this.onPressed, this.buttonColor, this.width})
+      {Key key,
+      @required this.text,
+      @required this.onPressed,
+      this.buttonColor,
+      this.width})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 45,
       width: width ?? 200,
       child: FlatButton(
         onPressed: onPressed,
@@ -34,18 +38,21 @@ class MyButton extends StatelessWidget {
           ),
           child: Container(
             alignment: Alignment.center,
-            constraints: BoxConstraints(maxWidth: double.infinity, minHeight: 50),
+            constraints:
+                BoxConstraints(maxWidth: double.infinity, minHeight: 50),
             child: Text(
               text,
               style: TextStyle(
-                  color: buttonColor == Colors.white ? Colors.black54 : Colors.white,
+                  color: buttonColor == Colors.white
+                      ? Colors.black54
+                      : Colors.white,
                   fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ),
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(40),
         ),
       ),
     );
