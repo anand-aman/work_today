@@ -162,7 +162,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                     ),
                     child: CircleAvatar(
                       backgroundImage: AssetImage(
-                        'images/work-icon.png',
+                        'images/work6.jpg',
                       ),
                     ),
                   ),
