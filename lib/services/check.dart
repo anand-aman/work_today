@@ -103,7 +103,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
     //Color(0xff383844)
     final double _height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color(0xfff7ab37),
+      backgroundColor: Color(0xFF7F1CFF),
       body: Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -126,7 +126,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                     Text(
                       'Work Today',
                       style: TextStyle(
-                          color: Color(0xfff7ab37),
+                          color: Color(0xFF7F1CFF),
                           fontSize: 30,
                           fontFamily: 'FV_ALMELO'),
                     ),
@@ -139,7 +139,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
               height: 1000 * _animationController.value,
               width: 1000 * _animationController.value,
               decoration: BoxDecoration(
-                color: Color(0xfff7ab37),
+                color: Color(0xFF7F1CFF),
                 borderRadius: BorderRadius.circular(
                   600 * (1 - _animationController.value),
                 ),
@@ -151,7 +151,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                     height: 160,
                     width: 160,
                     decoration: BoxDecoration(
-                      color: Color(0xfff7ab37),
+                      color: Color(0xFF7F1CFF),
                       // image: DecorationImage(
                       //   image: AssetImage(
                       //     'images/logo2.jpg',
@@ -162,7 +162,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                     ),
                     child: CircleAvatar(
                       backgroundImage: AssetImage(
-                        'images/logo.jpg',
+                        'images/work6.jpg',
                       ),
                     ),
                   ),

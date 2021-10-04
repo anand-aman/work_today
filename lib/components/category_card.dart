@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 const kTextStyle = TextStyle(
-  color: Color(0xFF7F1CFF),
-  fontWeight: FontWeight.bold,
-  fontSize: 15,
-);
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+    fontSize: 15,
+    letterSpacing: 1);
 
 class CategoryCard extends StatelessWidget {
   CategoryCard({
@@ -36,7 +36,8 @@ class CategoryCard extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage('images/${text.toLowerCase()}.png'))),
+                              image: AssetImage(
+                                  'images/${text.toLowerCase()}.png'))),
                     ),
                   ),
                   SizedBox(
@@ -55,13 +56,14 @@ class CategoryCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     color: Color(0x407f1cff),
                   ))
-                : Container(),
+                : Container()
           ],
         ),
-        margin: EdgeInsets.all(5.0),
+        margin: EdgeInsets.all(15.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: this.isdark?Colors.grey: Colors.white,
+          color: 
+          Colors.grey[200],
         ),
       ),
     );
