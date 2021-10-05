@@ -53,7 +53,7 @@ class _ownProfileState extends State<ownProfile> {
         title: Row(
           children: <Widget>[
             Text(
-              "User Profile",
+              "Account Settings",
               style: GoogleFonts.nunito(
                   color: widget.isdark ? Colors.white : Colors.black,
                   fontWeight: FontWeight.w600,
