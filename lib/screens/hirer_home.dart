@@ -1,16 +1,12 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:work_today/components/my_button.dart';
 import 'package:work_today/components/request_card.dart';
-import 'package:work_today/screens/category_screen.dart';
-import 'package:work_today/screens/userprofile.dart';
-import 'package:work_today/services/firebase_user.dart';
-import 'package:flutter/material.dart';
 import 'package:work_today/model/request.dart';
-import 'package:work_today/screens/available_worker.dart';
-import 'dart:async';
+import 'package:work_today/screens/category_screen.dart';
+import 'package:work_today/services/firebase_user.dart';
+
 import 'home_screen.dart';
 import 'ownProfile.dart';
 
@@ -28,13 +24,15 @@ class _HirerHomeState extends State<HirerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:this.widget.isdark?Colors.grey[850]: Color(0xFFF6F6F6),
+      backgroundColor:
+          this.widget.isdark ? Colors.grey[850] : Color(0xFFF6F6F6),
       appBar: AppBar(
-        backgroundColor:this.widget.isdark?Colors.grey[850]: Color(0xFFF6F6F6),
+        backgroundColor:
+            this.widget.isdark ? Colors.grey[850] : Color(0xFFF6F6F6),
         elevation: 0.0,
         leading: Padding(
           padding: const EdgeInsets.only(
-            left: 18.0,
+            left: 10.0,
             top: 12.0,
             bottom: 12.0,
             right: 12.0,
@@ -42,56 +40,47 @@ class _HirerHomeState extends State<HirerHome> {
           child: IconButton(
             icon: Icon(
               Icons.notifications,
-              size: 25.0,
-              color: this.widget.isdark?Colors.white: Colors.black,
+              size: 25,
+              color: this.widget.isdark ? Colors.white :Color(0xff7f1cff),
             ),
             onPressed: () {},
           ),
         ),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.only(right: 10.0),
             child: GestureDetector(
-
-              child:Icon(Icons.account_circle_outlined,color: Colors.deepPurple,size: 30.0, ) ,
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ownProfile(
-                  isdark: widget.isdark,
-                )));
+              child: Icon(
+                Icons.account_circle_outlined,
+                color: widget.isdark ? Colors.white : Colors.black,
+                size: 20,
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ownProfile(
+                              isdark: widget.isdark,
+                            )));
               },
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.only(right: 10.0),
             child: GestureDetector(
-
-              child:Icon(Icons.brightness_4_outlined,color: Colors.deepPurple,size: 30.0, ) ,
-              onTap: (){
+              child: Icon(
+              widget.isdark?  Icons.light_mode:Icons.dark_mode,
+                color: widget.isdark ? Colors.white : Colors.black,
+                size: 20,
+              ),
+              onTap: () {
                 setState(() {
                   widget.isdark = !widget.isdark;
                 });
               },
             ),
           ),
-
-//          Icon(Icons.supervised_user_circle, size: 25.0, color: Colors.black),
-
-          FlatButton(
-              onPressed: () {
-                FirebaseCurrentUser().signOut();
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                        isdark: this.widget.isdark,
-                      ),
-                      settings: RouteSettings(name: 'Home Screen'),
-                    ));
-              },
-              child: Text('Logout',
-              style: TextStyle(
-                color: this.widget.isdark?Colors.white:Colors.black,
-              ),)),
+          
         ],
       ),
       body: Container(
@@ -103,18 +92,35 @@ class _HirerHomeState extends State<HirerHome> {
               height: 25.0,
             ),
             Text(
-                "Hii ${FirebaseCurrentUser.appUser.name},\nWhat Are You Looking For",
-                style: TextStyle(
-                  fontFamily: 'FV_ALMELO',
-                    fontSize: 23,
-                    fontWeight: FontWeight.w500,
-                    wordSpacing: 2.5,
-                  color: this.widget.isdark?Colors.white: Colors.black,)),
-            Expanded(child: RequestStream(isdark: this.widget.isdark,)),
+              "Hello ${FirebaseCurrentUser.appUser.name} ,",
+              style: GoogleFonts.nunito(
+                textStyle: Theme.of(context).textTheme.headline4,
+                fontSize: 24,
+                color: this.widget.isdark ? Colors.white : Colors.black,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Text(
+              "What are you looking for",
+              style: GoogleFonts.nunito(
+                textStyle: Theme.of(context).textTheme.headline4,
+                fontSize: 18,
+                color: this.widget.isdark ? Colors.white : Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Expanded(
+                child: RequestStream(
+              isdark: this.widget.isdark,
+            )),
             Container(
               padding: const EdgeInsets.all(15.0),
               child: Center(
                 child: MyButton(
+                    width: 150,
                     text: 'Hire',
                     onPressed: () {
                       Navigator.push(
@@ -143,7 +149,6 @@ class RequestStream extends StatefulWidget {
 }
 
 class _RequestStreamState extends State<RequestStream> {
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -187,14 +192,10 @@ class _RequestStreamState extends State<RequestStream> {
           ));
         }
 
-
         return Container(
-
           alignment: Alignment.center,
-
           width: double.infinity,
           child: ListView(
-
             children: requestCardList,
           ),
         );
@@ -202,4 +203,3 @@ class _RequestStreamState extends State<RequestStream> {
     );
   }
 }
-

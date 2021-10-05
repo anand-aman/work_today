@@ -39,7 +39,7 @@ class _WorkerHomeState extends State<WorkerHome> {
             icon: Icon(
               Icons.notifications,
               size: 25,
-              color: this.widget.isdark ? Colors.white : Colors.black,
+              color: this.widget.isdark ? Colors.white : Color(0xff7f1cff),
             ),
             onPressed: () {},
           ),
@@ -51,7 +51,7 @@ class _WorkerHomeState extends State<WorkerHome> {
               child: Icon(
                 Icons.account_circle_outlined,
                 color: widget.isdark ? Colors.white : Colors.black,
-                size: 25,
+                size: 20,
               ),
               onTap: () {
                 Navigator.push(
@@ -67,35 +67,14 @@ class _WorkerHomeState extends State<WorkerHome> {
             padding: const EdgeInsets.only(right: 10.0),
             child: GestureDetector(
               child: Icon(
-                Icons.brightness_4_outlined,
+                widget.isdark ? Icons.light_mode : Icons.dark_mode,
                 color: widget.isdark ? Colors.white : Colors.black,
-                size: 25,
+                size: 20,
               ),
               onTap: () {
                 setState(() {
                   widget.isdark = !widget.isdark;
                 });
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              child: Icon(
-                Icons.logout,
-                color: widget.isdark ? Colors.white : Colors.black,
-                size: 25,
-              ),
-              onTap: () {
-                FirebaseCurrentUser().signOut();
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                        isdark: this.widget.isdark,
-                      ),
-                      settings: RouteSettings(name: 'Home Screen'),
-                    ));
               },
             ),
           ),
