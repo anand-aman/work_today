@@ -5,9 +5,11 @@ import 'package:work_today/services/check.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:work_today/components/input_field.dart';
 import 'package:work_today/widgets/text.dart';
+import 'package:work_today/services/firebase_user.dart';
 
 class LoginScreen extends StatefulWidget {
   final bool isdark;
@@ -145,9 +147,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                 },
               ),
+              Container(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FacebookSignInButton(
+                      onPressed: () {
+                        var firebaseUser = new FirebaseCurrentUser();
+                        var currentUser = firebaseUser.signInWithFacebook();
+                      },
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 20,
-              )
+              ),
             ],
           ),
         ),
