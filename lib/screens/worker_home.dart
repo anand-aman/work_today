@@ -19,8 +19,95 @@ class WorkerHome extends StatefulWidget {
 }
 
 class _WorkerHomeState extends State<WorkerHome> {
+
+  void navigateToAccountPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ownProfile(
+          isdark: widget.isdark,
+        ),
+      ),
+    );
+  }
+
+  void toggleDarkMode() {
+    setState(() {
+      widget.isdark = !widget.isdark;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    Widget notificationButton = Padding(
+      padding: const EdgeInsets.only(left: 10, top: 12, bottom: 12, right: 12),
+      child: IconButton(
+        icon: Icon(
+          Icons.notifications,
+          size: 25,
+          color: this.widget.isdark ? Colors.white : Color(0xff7f1cff),
+        ),
+        onPressed: () {},
+      ),
+    );
+
+    Widget accountButton = Padding(
+      padding: const EdgeInsets.only(right: 10.0),
+      child: GestureDetector(
+        child: Icon(
+          Icons.account_circle_outlined,
+          color: widget.isdark ? Colors.white : Colors.black,
+          size: 20,
+        ),
+        onTap: navigateToAccountPage,
+      ),
+    );
+
+    Widget toggleDarkModeButton = Padding(
+      padding: const EdgeInsets.only(right: 10.0),
+      child: GestureDetector(
+        child: Icon(
+          widget.isdark ? Icons.light_mode : Icons.dark_mode,
+          color: widget.isdark ? Colors.white : Colors.black,
+          size: 20,
+        ),
+        onTap: toggleDarkMode,
+      ),
+    );
+
+    Widget header = Container(
+      padding: const EdgeInsets.only(top: 25),
+      child: Text(
+        "Hello ${FirebaseCurrentUser.appUser.name},",
+        style: GoogleFonts.nunito(
+          textStyle: Theme.of(context).textTheme.headline4,
+          fontSize: 24,
+          color: this.widget.isdark ? Colors.white : Colors.black,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+
+    Widget subHeader = Container(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Text(
+        "Here are yours request",
+        style: GoogleFonts.nunito(
+          textStyle: Theme.of(context).textTheme.headline4,
+          fontSize: 18,
+          color: this.widget.isdark ? Colors.white : Colors.black,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+
+    Widget requestStream = Expanded(
+      child: RequestStream(
+        isdark: widget.isdark,
+      ),
+    );
+
     return Scaffold(
       backgroundColor:
           this.widget.isdark ? Colors.grey[850] : Color(0xFFF6F6F6),
@@ -28,56 +115,10 @@ class _WorkerHomeState extends State<WorkerHome> {
         backgroundColor:
             this.widget.isdark ? Colors.grey[850] : Color(0xFFF6F6F6),
         elevation: 0.0,
-        leading: Padding(
-          padding: const EdgeInsets.only(
-            left: 10.0,
-            top: 12.0,
-            bottom: 12.0,
-            right: 12.0,
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.notifications,
-              size: 25,
-              color: this.widget.isdark ? Colors.white : Color(0xff7f1cff),
-            ),
-            onPressed: () {},
-          ),
-        ),
+        leading: notificationButton,
         actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              child: Icon(
-                Icons.account_circle_outlined,
-                color: widget.isdark ? Colors.white : Colors.black,
-                size: 20,
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ownProfile(
-                              isdark: widget.isdark,
-                            )));
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              child: Icon(
-                widget.isdark ? Icons.light_mode : Icons.dark_mode,
-                color: widget.isdark ? Colors.white : Colors.black,
-                size: 20,
-              ),
-              onTap: () {
-                setState(() {
-                  widget.isdark = !widget.isdark;
-                });
-              },
-            ),
-          ),
+          accountButton,
+          toggleDarkModeButton,
         ],
       ),
       body: Container(
@@ -85,34 +126,9 @@ class _WorkerHomeState extends State<WorkerHome> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
-              height: 25.0,
-            ),
-            Text(
-              "Hello ${FirebaseCurrentUser.appUser.name} ,",
-              style: GoogleFonts.nunito(
-                textStyle: Theme.of(context).textTheme.headline4,
-                fontSize: 24,
-                color: this.widget.isdark ? Colors.white : Colors.black,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            Text(
-              "Here are yours request",
-              style: GoogleFonts.nunito(
-                textStyle: Theme.of(context).textTheme.headline4,
-                fontSize: 18,
-                color: this.widget.isdark ? Colors.white : Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Expanded(
-                child: RequestStream(
-              isdark: widget.isdark,
-            )),
+            header,
+            subHeader,
+            requestStream,
           ],
         ),
       ),

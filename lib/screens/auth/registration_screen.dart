@@ -128,6 +128,67 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _phoneNoController = TextEditingController(text: user?.phoneNumber ?? null);
   }
 
+  void checkIfPasswordsMatch() {
+    if (_pwdInputController.text !=
+        _confirmPwdInputController.text) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("The passwords do not match"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  void displaySpinner() {
+    setState(() {
+      showSpinner = true;
+    });
+  }
+
+  void stopDisplayingSpinner() {
+    setState(() {
+      showSpinner = false;
+    });
+  }
+
+  void navigateToLocationScreen() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LocationScreen(
+            isHirer: isHirer,
+            isdark: widget.isdark,
+          ),
+          settings: RouteSettings(name: 'Location Screen'),
+        )
+    );
+  }
+
+  void signUp() async {
+    checkIfPasswordsMatch();
+    displaySpinner();
+
+    createUser().then((value) {
+        stopDisplayingSpinner();
+        if (value) {
+          navigateToLocationScreen();
+        }
+      },
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -147,6 +208,216 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    Widget backButton = Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 18,
+            color: widget.isdark ? Colors.white : Colors.black,
+          )
+      ),
+    );
+
+    Widget header = Padding(
+      padding: const EdgeInsets.only(left: 20, bottom: 10),
+      child: TextHelper(
+        text: "Work Today",
+        size: 30,
+        weight: FontWeight.bold,
+        color: widget.isdark ? Colors.white : Colors.black,
+      ),
+    );
+
+    Widget subHeader = Padding(
+      padding: const EdgeInsets.only(left: 20, bottom: 20),
+      child: TextHelper(
+        text: "Join to get immediate updates",
+        size: 14,
+        weight: FontWeight.normal,
+        color: widget.isdark ? Colors.white : Colors.black,
+      ),
+    );
+
+    Widget nameForm = Container(
+      padding: const EdgeInsets.only(top: 16, bottom: 16),
+      child: TextInputField(
+        color: widget.isdark ? Colors.white : Colors.grey[200],
+        controller: _usernameInputController,
+        label: "Name",
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Name is required.';
+          }
+        },
+      ),
+    );
+
+    Widget phoneNumForm = Container(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: TextInputField(
+        color: widget.isdark ? Colors.white : Colors.grey[200],
+        controller: _phoneNoController,
+        textInputType: TextInputType.phone,
+        maxLength: 10,
+        label: "Phone No.",
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Phone Number is required.';
+          }
+        },
+      ),
+    );
+
+    Widget hirerButton = Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isHirer = true;
+            });
+          },
+          child: TextHelper(
+            text: "Hire",
+            size: 18,
+            color: widget.isdark
+                ? Colors.white
+                : Colors.black,
+          ),
+        ),
+        SmallButton(
+          text: "Hire",
+          onPressed: () {},
+          buttonColor: isHirer
+              ?  Color(0xff7f1cff)
+              : widget.isdark
+              ? Colors.grey[850]
+              : Colors.white,
+          width: 100.0,
+        ),
+      ],
+    );
+
+    Widget workerButton = Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isHirer = false;
+            });
+          },
+          child: TextHelper(
+            text: "Work",
+            size: 18,
+            color: widget.isdark
+                ? Colors.white
+                : Colors.black,
+          ),
+        ),
+        SmallButton(
+          text: "Hire",
+          onPressed: () {},
+          buttonColor: isHirer
+              ? widget.isdark
+              ? Colors.grey[850]
+              : Colors.white
+              :  Color(0xff7f1cff),
+          width: 100.0,
+        ),
+      ],
+    );
+
+
+    Widget emailForm = Container(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: TextInputField(
+        color: widget.isdark ? Colors.white : Colors.grey[200],
+        controller: _emailInputController,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Email is required';
+          }
+          if (!RegExp(
+              r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+              .hasMatch(value)) {
+            return 'Please enter a valid email Address';
+          }
+          if (e == 1) {
+            return 'This Email is already used';
+          }
+          return null;
+        },
+        textInputType: TextInputType.emailAddress,
+        label: "Email",
+      ),
+    );
+
+    Widget passwordForm = Container(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: PasswordInputField(
+        color: widget.isdark ? Colors.white : Colors.grey[200],
+        controller: _pwdInputController,
+        label: "Password",
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Password is Required';
+          }
+          return null;
+        },
+      ),
+    );
+
+    Widget confirmPasswordForm = Container(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: PasswordInputField(
+        color: widget.isdark ? Colors.white : Colors.grey[200],
+        controller: _confirmPwdInputController,
+        label: "Confirm Password",
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Confirm Password is Required';
+          }
+          return null;
+        },
+      ),
+    );
+
+    Widget formFields = Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                hirerButton,
+                workerButton,
+              ],
+            ),
+          ),
+          nameForm,
+          phoneNumForm,
+          if (widget.signInMethod == SignInMethod.email)
+            emailForm,
+            passwordForm,
+            confirmPasswordForm,
+        ],
+      ),
+    );
+
+    Widget signUpButton = Container(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: MyButton(
+        text: 'Signup',
+        onPressed: signUp,
+      ),
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: widget.isdark ? Colors.grey[900] : Colors.white,
@@ -155,252 +426,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios_new_outlined,
-                          size: 18,
-                          color: widget.isdark ? Colors.white : Colors.black,
-                        )),
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: TextHelper(
-                  text: "Work Today",
-                  size: 30,
-                  weight: FontWeight.bold,
-                  color: widget.isdark ? Colors.white : Colors.black,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: TextHelper(
-                  text: "Join to get immediate updates",
-                  size: 14,
-                  weight: FontWeight.normal,
-                  color: widget.isdark ? Colors.white : Colors.black,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    isHirer = true;
-                                  });
-                                },
-                                child: TextHelper(
-                                  text: "Hire",
-                                  size: 18,
-                                  color: widget.isdark
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                              SmallButton(
-                                text: "Hire",
-                                onPressed: () {},
-                                buttonColor: isHirer
-                                    ?  Color(0xff7f1cff)
-                                    : widget.isdark
-                                        ? Colors.grey[850]
-                                        : Colors.white,
-                                width: 100.0,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    isHirer = false;
-                                  });
-                                },
-                                child: TextHelper(
-                                  text: "Work",
-                                  size: 18,
-                                  color: widget.isdark
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                              SmallButton(
-                                text: "Hire",
-                                onPressed: () {},
-                                buttonColor: isHirer
-                                    ? widget.isdark
-                                        ? Colors.grey[850]
-                                        : Colors.white
-                                    :  Color(0xff7f1cff),
-                                width: 100.0,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextInputField(
-                      color: widget.isdark ? Colors.white : Colors.grey[200],
-                      controller: _usernameInputController,
-                      label: "Name",
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Name is required.';
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextInputField(
-                      color: widget.isdark ? Colors.white : Colors.grey[200],
-                      controller: _phoneNoController,
-                      textInputType: TextInputType.phone,
-                      maxLength: 10,
-                      label: "Phone No.",
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Phone Number is required.';
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    if (widget.signInMethod == SignInMethod.email)
-                      TextInputField(
-                        color: widget.isdark ? Colors.white : Colors.grey[200],
-                        controller: _emailInputController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Email is required';
-                          }
-                          if (!RegExp(
-                                  r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                              .hasMatch(value)) {
-                            return 'Please enter a valid email Address';
-                          }
-                          if (e == 1) {
-                            return 'This Email is already used';
-                          }
-                          return null;
-                        },
-                        textInputType: TextInputType.emailAddress,
-                        label: "Email",
-                      ),
-                    if (widget.signInMethod == SignInMethod.email)
-                      SizedBox(
-                        height: 16,
-                      ),
-                    if (widget.signInMethod == SignInMethod.email)
-                      PasswordInputField(
-                        color: widget.isdark ? Colors.white : Colors.grey[200],
-                        controller: _pwdInputController,
-                        label: "Password",
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Password is Required';
-                          }
-                          return null;
-                        },
-                      ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    if (widget.signInMethod == SignInMethod.email)
-                      PasswordInputField(
-                        color: widget.isdark ? Colors.white : Colors.grey[200],
-                        controller: _confirmPwdInputController,
-                        label: "Confirm Password",
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Confirm Password is Required';
-                          }
-                          return null;
-                        },
-                      ),
-                  ],
-                ),
-              ),
+              backButton,
+              header,
+              subHeader,
+              formFields,
               Spacer(),
-              MyButton(
-                text: 'Signup',
-                onPressed: () async {
-                  if (_pwdInputController.text !=
-                      _confirmPwdInputController.text) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Error"),
-                          content: Text("The passwords do not match"),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text("Close"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ],
-                        );
-                      },
-                    );
-                    return;
-                  }
-
-                  setState(() {
-                    showSpinner = true;
-                  });
-
-                  createUser().then(
-                    (value) {
-                      setState(() {
-                        showSpinner = false;
-                      });
-                      if (value)
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LocationScreen(
-                                isHirer: isHirer,
-                                isdark: widget.isdark,
-                              ),
-                              settings: RouteSettings(name: 'Location Screen'),
-                            ));
-                    },
-                  );
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              signUpButton,
             ],
           ),
         ),
