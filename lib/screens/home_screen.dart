@@ -18,8 +18,154 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool inAsyncCall = false;
 
+  void toggleDarkMode() {
+    setState(() {
+      widget.isdark = !widget.isdark;
+    });
+  }
+
+  void navigateToHirerRegistrationPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RegistrationScreen(
+          isHire: true,
+          isdark: widget.isdark,
+          signInMethod: SignInMethod.email,
+        ),
+        settings:
+          RouteSettings(name: 'Registration Screen'),
+      ),
+    );
+  }
+
+  void navigateToWorkerRegistrationPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RegistrationScreen(
+          isdark: widget.isdark,
+          isHire: false,
+          signInMethod: SignInMethod.email,
+        ),
+        settings:
+          RouteSettings(name: 'Registration Screen'),
+        ),
+    );
+  }
+
+  void navigateToLoginPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(
+          isdark: widget.isdark,
+        ),
+        settings: RouteSettings(name: 'Login Screen'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    Widget toggleDarkModeButton = Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        child: Icon(
+          widget.isdark ? Icons.light_mode : Icons.dark_mode,
+          color: widget.isdark
+              ? Colors.white
+              :  Color(0xff7f1cff),
+          size: 20.0,
+        ),
+        onTap: toggleDarkMode,
+      ),
+    );
+
+    Widget header = Container(
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 6,
+          bottom: 5
+      ),
+      child: TextHelper(
+        weight: FontWeight.bold,
+        text: "Work Today",
+        size: 30,
+        color: widget.isdark
+            ? Colors.white
+            : Color.fromRGBO(56, 56, 68, 1),
+      ),
+    );
+
+    Widget subHeader = TextHelper(
+      text: "Hire workers instantly",
+      size: 20,
+      color: widget.isdark
+          ? Colors.white
+          : Color.fromRGBO(56, 56, 68, 1),
+    );
+
+    Widget workTodayLogo = Container(
+      height: MediaQuery.of(context).size.height / 3,
+      child: Center(child: Image.asset("images/logo_bg_remove.png")),
+    );
+
+    Widget registerAsHirer = GestureDetector(
+      onTap: navigateToHirerRegistrationPage,
+      child: Center(
+        child: TextHelper(
+          weight: FontWeight.bold,
+          text: "Hire | ",
+          size: 18,
+          color: widget.isdark ? Colors.white : Colors.black,
+        ),
+      ),
+    );
+
+    Widget registerAsWorker = GestureDetector(
+      onTap: navigateToWorkerRegistrationPage,
+      child: Center(
+        child: TextHelper(
+          weight: FontWeight.bold,
+          text: "Work",
+          size: 18,
+          color: widget.isdark ? Colors.white : Colors.black,
+        ),
+      ),
+    );
+
+    Widget registrationOptions = Container(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          registerAsHirer,
+          registerAsWorker,
+        ],
+      ),
+    );
+
+    Widget getStartedButton = GestureDetector(
+      onTap: navigateToLoginPage,
+      child: Padding(
+        padding: EdgeInsets.only(left: 40, right: 40, bottom: 20),
+        child: Container(
+          height: 50,
+          decoration: BoxDecoration(
+              color: widget.isdark ? Colors.white : Color(0xff7f1cff),
+              borderRadius: BorderRadius.circular(40)),
+          child: Center(
+            child: TextHelper(
+              text: "Get Started",
+              size: 18,
+              color: widget.isdark ? Colors.black : Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+
     return MaterialApp(
       theme: widget.isdark
           ? ThemeData.dark()
@@ -32,140 +178,19 @@ class _HomeScreenState extends State<HomeScreen> {
             centerTitle: false,
             elevation: 0,
             actions: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  child: Icon(
-                    widget.isdark ? Icons.light_mode : Icons.dark_mode,
-                    color: widget.isdark
-                        ? Colors.white
-                        :  Color(0xff7f1cff),
-                    size: 20.0,
-                  ),
-                  onTap: () {
-                    setState(() {
-                      widget.isdark = !widget.isdark;
-                    });
-                  },
-                ),
-              )
+              toggleDarkModeButton,
             ],
           ),
           backgroundColor: widget.isdark ? Colors.grey[900] : Colors.white,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 6,
-              ),
-              TextHelper(
-                weight: FontWeight.bold,
-                text: "Work Today",
-                size: 30,
-                color: widget.isdark
-                    ? Colors.white
-                    : Color.fromRGBO(56, 56, 68, 1),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              TextHelper(
-                text: "Hire workers instantly",
-                size: 20,
-                color: widget.isdark
-                    ? Colors.white
-                    : Color.fromRGBO(56, 56, 68, 1),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height / 3,
-                child: Center(child: Image.asset("images/logo_bg_remove.png")),
-              ),
+              header,
+              subHeader,
+              workTodayLogo,
               Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegistrationScreen(
-                              isHire: true,
-                              isdark: widget.isdark,
-                              signInMethod: SignInMethod.email,
-                            ),
-                            settings:
-                                RouteSettings(name: 'Registration Screen'),
-                          ));
-                    },
-                    child: Center(
-                      child: TextHelper(
-                        weight: FontWeight.bold,
-                        text: "Hire | ",
-                        size: 18,
-                        color: widget.isdark ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegistrationScreen(
-                              isdark: widget.isdark,
-                              isHire: false,
-                              signInMethod: SignInMethod.email,
-                            ),
-                            settings:
-                                RouteSettings(name: 'Registration Screen'),
-                          ));
-                    },
-                    child: Center(
-                      child: TextHelper(
-                        weight: FontWeight.bold,
-                        text: "Work",
-                        size: 18,
-                        color: widget.isdark ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginScreen(
-                          isdark: widget.isdark,
-                        ),
-                        settings: RouteSettings(name: 'Login Screen'),
-                      ));
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(left: 40, right: 40),
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: widget.isdark ? Colors.white : Color(0xff7f1cff),
-                        borderRadius: BorderRadius.circular(40)),
-                    child: Center(
-                      child: TextHelper(
-                        text: "Get Started",
-                        size: 18,
-                        color: widget.isdark ? Colors.black : Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              registrationOptions,
+              getStartedButton,
             ],
           ),
         ),

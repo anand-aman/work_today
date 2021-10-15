@@ -30,8 +30,96 @@ class _LocationScreenState extends State<LocationScreen> {
     _cityName.dispose();
   }
 
+  void getCurrentCity() async {
+    String cityName = await ld.getCurrentlocation();
+    setState(() {
+      _cityName.text = cityName;
+    });
+  }
+
+  void navigateToHirerHomepage() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Check(
+            isdark: widget.isdark,
+          ),
+        ),
+    );
+  }
+
+  void navigateToWorkerHomepage() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CategoryScreen(
+            isHirer: false,
+            isdark:widget.isdark,
+          ),
+        ),
+    );
+  }
+
+  void updateUserLocation() async {
+    FirebaseCurrentUser().updateLocation(_cityName.text).then((value){
+      if (widget.isHirer)
+        navigateToHirerHomepage();
+      else
+        navigateToWorkerHomepage();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    Widget locationForm =  Padding(
+      padding: const EdgeInsets.only(left: 25, right: 25, top: 75, bottom: 25),
+      child: TextField(
+        controller: _cityName,
+        decoration: InputDecoration(hintText: 'Enter The Location'),
+      ),
+    );
+
+    Widget currentLocationButton = FlatButton(
+      padding: EdgeInsets.all(8.0),
+      color: Color(0xFFB57DFF),
+      child: Column(
+        children: <Widget>[
+          Icon(
+            Icons.location_searching,
+            size: 25.0,
+            color: Colors.white,
+          ),
+          Text(
+            "Current Location",
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+      onPressed: getCurrentCity,
+    );
+
+    Widget locationGif = Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                  'images/Location.gif',
+              ),
+            )
+        ),
+      ),
+    );
+
+    Widget continueButton = Container(
+      padding: const EdgeInsets.only(bottom: 40),
+      child: MyButton(
+        text: 'Continue..',
+        width: 100.0,
+        onPressed: updateUserLocation,
+      ),
+    );
+
     return Scaffold(
       backgroundColor: widget.isdark?Colors.grey[850]:Color(0xffFFFFFF),
       body: Container(
@@ -39,75 +127,10 @@ class _LocationScreenState extends State<LocationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: 50.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: TextField(
-                controller: _cityName,
-                decoration: InputDecoration(hintText: 'Enter The Location'),
-              ),
-            ),
-            FlatButton(
-
-              padding: EdgeInsets.all(8.0),
-              color: Color(0xFFB57DFF),
-
-              child: Column(
-                children: <Widget>[
-                  Icon(
-                    Icons.location_searching,
-                    size: 25.0,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 20.0,
-                  ),
-                  Text(
-                    "Current Location",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-              onPressed: () async {
-                String cityName = await ld.getCurrentlocation();
-                setState(() {
-                  _cityName.text = cityName;
-                });
-              },
-            ),
-            Expanded(
-              child: Container(
-                decoration:
-                    BoxDecoration(image: DecorationImage(image: AssetImage('images/Location.gif'))),
-              ),
-            ),
-            MyButton(
-              text: 'Continue..',
-              width: 100.0,
-              onPressed: () async {
-                FirebaseCurrentUser().updateLocation(_cityName.text).then((value){
-                  if (widget.isHirer)
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Check(
-                            isdark: widget.isdark,
-                          ),
-                        ));
-                  else
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CategoryScreen(isHirer: false,isdark:widget.isdark,),
-                        ));
-                });
-              },
-            ),
-            SizedBox(
-              height: 40.0,
-            ),
+            locationForm,
+            currentLocationButton,
+            locationGif,
+            continueButton,
           ],
         ),
       ),

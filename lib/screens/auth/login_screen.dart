@@ -36,8 +36,146 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void displaySpinner () {
+    setState() {
+      showSpinner = true;
+    }
+  }
+
+  void stopDisplayingSpinner () {
+    setState() {
+      showSpinner = false;
+    }
+  }
+
+  void navigateToHomePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Check(
+          isdark: widget.isdark,
+        ),
+      ),
+    );
+  }
+
+  AlertDialog errorMessage(err) {
+    return AlertDialog(
+      title: Text("Error"),
+      content: Text(err.toString()),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("Close"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
+  }
+
+  void signIn () async {
+    displaySpinner();
+    try {
+      print('Signin execution started');
+      final user = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+          email: _emailInputController.text,
+          password: _pwdInputController.text);
+      stopDisplayingSpinner();
+      if (user != null) {
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // prefs.setString('email', _emailInputController.text);
+        navigateToHomePage();
+      }
+    } catch (err) {
+      errorMessage(err);
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
+
+    Widget backButton = Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+          },
+        icon: Icon(
+          Icons.arrow_back_ios_new_outlined,
+          size: 18,
+          color: widget.isdark ? Colors.white : Colors.black,
+        )
+      ),
+    );
+    
+    
+    Widget header = Padding(
+      padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
+      child: TextHelper(
+        text: "Welcome Back !",
+        size: 30,
+        color: widget.isdark ? Colors.white : Colors.black,
+        weight: FontWeight.bold,
+      ),
+    );
+    
+    Widget subHeader = Padding(
+      padding: const EdgeInsets.only(left: 20, bottom: 30),
+      child: TextHelper(
+        text: "Login to cherish the journey",
+        size: 18,
+        color: widget.isdark ? Colors.white : Colors.black,
+        weight: FontWeight.normal,
+      ),
+    );
+    
+    Widget emailForm = Container(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: TextInputField(
+        color: widget.isdark ? Colors.white : Colors.grey[200],
+        controller: _emailInputController,
+        validator: (input) =>
+        !input.contains('@') ? 'Not a valid Email' : null,
+        textInputType: TextInputType.emailAddress,
+        label: "Email",
+      ),
+    );
+    
+    Widget passwordForm = Container(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: PasswordInputField(
+        color: widget.isdark ? Colors.white : Colors.grey[200],
+        controller: _pwdInputController,
+        validator: (input) =>
+        input.length < 8 ? 'You need at least 8 characters' : null,
+        label: "Password",
+      ),
+    );
+    
+    
+    Widget signInButton = MyButton(
+      text: 'Sign in',
+      onPressed: signIn,
+    );
+
+    
+    Widget facebookSignInButton = Container(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FacebookSignInButton(
+            onPressed: () {
+              var firebaseUser = new FirebaseCurrentUser();
+              var currentUser = firebaseUser.signInWithFacebook();
+            },
+          ),
+        ],
+      ),
+    );
+
     return Scaffold(
       backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
       body: SafeArea(
@@ -46,124 +184,14 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios_new_outlined,
-                          size: 18,
-                          color: widget.isdark ? Colors.white : Colors.black,
-                        )),
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 20),
-                child: TextHelper(
-                  text: "Welcome Back !",
-                  size: 30,
-                  color: widget.isdark ? Colors.white : Colors.black,
-                  weight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: TextHelper(
-                  text: "Login to cherish the journey",
-                  size: 18,
-                  color: widget.isdark ? Colors.white : Colors.black,
-                  weight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextInputField(
-                color: widget.isdark ? Colors.white : Colors.grey[200],
-                controller: _emailInputController,
-                validator: (input) =>
-                    !input.contains('@') ? 'Not a valid Email' : null,
-                textInputType: TextInputType.emailAddress,
-                label: "Email",
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              PasswordInputField(
-                color: widget.isdark ? Colors.white : Colors.grey[200],
-                controller: _pwdInputController,
-                validator: (input) =>
-                    input.length < 8 ? 'You need at least 8 characters' : null,
-                label: "Password",
-              ),
+              backButton,
+              header,
+              subHeader,
+              emailForm,
+              passwordForm,
               Spacer(),
-              MyButton(
-                text: 'Signin',
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    print('Signin execution started');
-                    final user = await FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: _emailInputController.text,
-                            password: _pwdInputController.text);
-                    setState(() {
-                      showSpinner = false;
-                    });
-                    if (user != null) {
-                      //                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      //                      prefs.setString('email', _emailInputController.text);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Check(
-                              isdark: widget.isdark,
-                            ),
-                          ));
-                    }
-                  } catch (err) {
-                    AlertDialog(
-                      title: Text("Error"),
-                      content: Text(err.toString()),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    );
-                  }
-                },
-              ),
-              Container(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FacebookSignInButton(
-                      onPressed: () {
-                        var firebaseUser = new FirebaseCurrentUser();
-                        var currentUser = firebaseUser.signInWithFacebook();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              signInButton,
+              facebookSignInButton,
             ],
           ),
         ),

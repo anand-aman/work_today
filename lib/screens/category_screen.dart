@@ -18,20 +18,38 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   Category category = Category();
+
+  void navigateToAvailableWorkerPage(int index) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AvailableWorker(
+            isdark: widget.isdark,
+            category: category.categoryList[index],
+          ),
+        ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    Widget header = Text(
+      "Category",
+      style: TextStyle(
+          color: widget.isdark ? Colors.white : Colors.black,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1
+      ),
+    );
+
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         iconTheme:
             IconThemeData(color: widget.isdark ? Colors.white : Colors.black),
-        title: Text(
-          "Category",
-          style: TextStyle(
-              color: widget.isdark ? Colors.white : Colors.black,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1),
-        ),
+        title: header,
         backgroundColor: widget.isdark ? Colors.black87 : Colors.white,
       ),
       body: Container(
@@ -49,15 +67,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   isSelected: category.categoryBool[index],
                   onPress: () {
                     if (widget.isHirer) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AvailableWorker(
-                              isdark: widget.isdark,
-                              category: category.categoryList[index],
-                            ),
-                          ));
-                    } else {
+                      navigateToAvailableWorkerPage(index);
+                    }
+                    else {
                       setState(() {
                         category.categoryBool[index] =
                             !category.categoryBool[index];
@@ -91,8 +103,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         });
                       },
                     ),
-                    bottom: 20.0,
-                  ),
+              bottom: 20.0,
+            ),
           ],
         ),
       ),
