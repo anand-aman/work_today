@@ -39,11 +39,16 @@
 ## Screenshots
 
 <p align="center">
-<img src="https://i.ibb.co/KGSvs6X/1.png" width="250">
-<img src="https://i.ibb.co/7tPmCPm/2.png" width="250">
-<img src="https://i.ibb.co/7QrG1Cq/3.png" width="250">
-<img src="https://i.ibb.co/qdN90g3/4.png" width="250">
-<img src="https://i.ibb.co/BCzTLsq/5.png" width="250">
-<img src="https://i.ibb.co/8Bvst97/6.png" width="250">
-<img src="https://i.ibb.co/wrM2smb/7.png" width="250">
+<img src="https://i.ibb.co/gFnTPnK/1.png" width="250">
+<img src="https://i.ibb.co/M9K3k8L/2.png" width="250">
+<img src="https://i.ibb.co/7jZP65h/31.png" width="250">
+<img src="https://i.ibb.co/JmDF79W/4.png" width="250">
+<img src="https://i.ibb.co/Kj1q106/5.png" width="250">
+<img src="https://i.ibb.co/2yGbCkJ/6.png" width="250">
+<img src="https://i.ibb.co/pfHghHd/7.png" width="250">
+<img src="https://i.ibb.co/PGKcRtN/8.png" width="250">
+<img src="https://i.ibb.co/WVLRQrv/9.png" width="250">
+<img src="https://i.ibb.co/qMfgVVG/10.png" width="250">
+<img src="https://i.ibb.co/Gtk4Dt7/11.png" width="250">
+<img src="https://i.ibb.co/BNrPTvV/12.png" width="250">
   </p>
