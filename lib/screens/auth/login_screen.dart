@@ -217,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Spacer(),
               Container(
                 height: 230.0,
-                color: Colors.white,
+                color: widget.isdark ? Colors.grey[850] : Colors.white
                 // child: Container(),
               ),
               signInButton,

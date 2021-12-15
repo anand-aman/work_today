@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Spacer(),
               Container(
                 height: 150.0,
-                color: Colors.white,
+                color:widget.isdark ? Colors.grey[900] : Colors.white
                 // child: Container(),
               ),
               registrationOptions,

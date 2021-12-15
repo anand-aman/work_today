@@ -432,7 +432,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Spacer(),
               Container(
                 height: 170.0,
-                color: Colors.white,
+                color: widget.isdark ? Colors.grey[900] : Colors.white
                 // child: Container(),
               ),
               signUpButton,
