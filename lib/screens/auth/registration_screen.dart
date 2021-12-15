@@ -49,8 +49,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (widget.signInMethod == SignInMethod.email)
       return _auth
           .createUserWithEmailAndPassword(
-              email: _emailInputController.text,
-              password: _pwdInputController.text)
+          email: _emailInputController.text,
+          password: _pwdInputController.text)
           .then((currentUser) {
         updateUserData(currentUser.user);
         return true;
@@ -87,36 +87,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .collection('users')
         .doc(currentUser.uid)
         .set({
-          "uid": currentUser.uid,
-          "name": _usernameInputController.text,
-          "phoneNo": _phoneNoController.text,
-          "email": _emailInputController.text,
-          "isHirer": isHirer,
-          "signInMethod": widget.signInMethod.index,
-        })
+      "uid": currentUser.uid,
+      "name": _usernameInputController.text,
+      "phoneNo": _phoneNoController.text,
+      "email": _emailInputController.text,
+      "isHirer": isHirer,
+      "signInMethod": widget.signInMethod.index,
+    })
         .then((value) => print('DATA UPDATED'))
         .catchError((onError) {
-          setState(() {
-            showSpinner = false;
-          });
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Error"),
-                content: Text(onError.toString()),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("Close"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  )
-                ],
-              );
-            },
+      setState(() {
+        showSpinner = false;
+      });
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(onError.toString()),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
           );
-        });
+        },
+      );
+    });
   }
 
   void initialize() async {
@@ -129,8 +129,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   void checkIfPasswordsMatch() {
-    if (_pwdInputController.text !=
-        _confirmPwdInputController.text) {
+    if (_pwdInputController.text != _confirmPwdInputController.text) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -172,15 +171,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             isdark: widget.isdark,
           ),
           settings: RouteSettings(name: 'Location Screen'),
-        )
-    );
+        ));
   }
 
   void signUp() async {
     checkIfPasswordsMatch();
     displaySpinner();
 
-    createUser().then((value) {
+    createUser().then(
+          (value) {
         stopDisplayingSpinner();
         if (value) {
           navigateToLocationScreen();
@@ -208,9 +207,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget backButton = Padding(
-      padding: const EdgeInsets.only(top: 20),
+      // padding: const EdgeInsets.only(top: 20),
+      padding: MediaQuery.of(context).orientation == Orientation.portrait
+          ? EdgeInsets.only(right: 370, left: 20, top: 20)
+          : EdgeInsets.only(top: 20, right: 830),
       child: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -219,12 +220,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Icons.arrow_back_ios_new_outlined,
             size: 18,
             color: widget.isdark ? Colors.white : Colors.black,
-          )
-      ),
+          )),
     );
 
     Widget header = Padding(
-      padding: const EdgeInsets.only(left: 20, bottom: 10),
+      padding: MediaQuery.of(context).orientation == Orientation.portrait
+          ? EdgeInsets.only(right: 10, left: 115)
+          : EdgeInsets.only(right: 300, left: 355),
       child: TextHelper(
         text: "Work Today",
         size: 30,
@@ -234,10 +236,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
 
     Widget subHeader = Padding(
-      padding: const EdgeInsets.only(left: 20, bottom: 20),
+      padding: MediaQuery.of(context).orientation == Orientation.portrait
+          ? EdgeInsets.only(right: 80, left: 80)
+          : EdgeInsets.only(right: 300, left: 325),
       child: TextHelper(
         text: "Join to get immediate updates",
-        size: 14,
+        size: 18,
         weight: FontWeight.normal,
         color: widget.isdark ? Colors.white : Colors.black,
       ),
@@ -284,16 +288,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: TextHelper(
             text: "Hire",
             size: 18,
-            color: widget.isdark
-                ? Colors.white
-                : Colors.black,
+            color: widget.isdark ? Colors.white : Colors.black,
           ),
         ),
         SmallButton(
           text: "Hire",
           onPressed: () {},
           buttonColor: isHirer
-              ?  Color(0xff7f1cff)
+              ? Color(0xff7f1cff)
               : widget.isdark
               ? Colors.grey[850]
               : Colors.white,
@@ -313,9 +315,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: TextHelper(
             text: "Work",
             size: 18,
-            color: widget.isdark
-                ? Colors.white
-                : Colors.black,
+            color: widget.isdark ? Colors.white : Colors.black,
           ),
         ),
         SmallButton(
@@ -325,12 +325,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ? widget.isdark
               ? Colors.grey[850]
               : Colors.white
-              :  Color(0xff7f1cff),
+              : Color(0xff7f1cff),
           width: 100.0,
         ),
       ],
     );
-
 
     Widget emailForm = Container(
       padding: const EdgeInsets.only(bottom: 16),
@@ -402,10 +401,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           nameForm,
           phoneNumForm,
-          if (widget.signInMethod == SignInMethod.email)
-            emailForm,
-            passwordForm,
-            confirmPasswordForm,
+          if (widget.signInMethod == SignInMethod.email) emailForm,
+          passwordForm,
+          confirmPasswordForm,
         ],
       ),
     );
@@ -423,14 +421,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       backgroundColor: widget.isdark ? Colors.grey[900] : Colors.white,
       body: SafeArea(
         child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            // padding: const EdgeInsets.all(8),
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               backButton,
               header,
               subHeader,
               formFields,
               Spacer(),
+              Container(
+                height: 170.0,
+                color: widget.isdark ? Colors.grey[900] : Colors.white
+                // child: Container(),
+              ),
               signUpButton,
             ],
           ),
