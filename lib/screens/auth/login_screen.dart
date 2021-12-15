@@ -17,7 +17,6 @@ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
-
 class _LoginScreenState extends State<LoginScreen> {
 //  final _auth=FirebaseAuth.instance;
   String email;
@@ -92,25 +91,27 @@ class _LoginScreenState extends State<LoginScreen> {
       errorMessage(err);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
+
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom;
 
     Widget backButton = Padding(
       padding: const EdgeInsets.only(top: 20),
       child: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
+          onPressed: () {
+            Navigator.pop(context);
           },
-        icon: Icon(
-          Icons.arrow_back_ios_new_outlined,
-          size: 18,
-          color: widget.isdark ? Colors.white : Colors.black,
-        )
+          icon: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 18,
+            color: widget.isdark ? Colors.white : Colors.black,
+          )
       ),
     );
-    
-    
+
+
     Widget header = Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
       child: TextHelper(
@@ -120,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
         weight: FontWeight.bold,
       ),
     );
-    
+
     Widget subHeader = Padding(
       padding: const EdgeInsets.only(left: 20, bottom: 30),
       child: TextHelper(
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
         weight: FontWeight.normal,
       ),
     );
-    
+
     Widget emailForm = Container(
       padding: const EdgeInsets.only(bottom: 20),
       child: TextInputField(
@@ -142,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
         label: "Email",
       ),
     );
-    
+
     Widget passwordForm = Container(
       padding: const EdgeInsets.only(bottom: 20),
       child: PasswordInputField(
@@ -153,14 +154,14 @@ class _LoginScreenState extends State<LoginScreen> {
         label: "Password",
       ),
     );
-    
-    
+
+
     Widget signInButton = MyButton(
       text: 'Sign in',
       onPressed: signIn,
     );
 
-    
+
     Widget facebookSignInButton = Container(
       padding: const EdgeInsets.all(20),
       child: Row(
@@ -175,11 +176,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
-
-    return Scaffold(
-      backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
-      body: SafeArea(
-        child: Container(
+    if(isKeyboard==0){
+      return Scaffold(
+        backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
+        resizeToAvoidBottomInset: false,
+        body:  Container(
           height: MediaQuery.of(context).size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +196,28 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    }
+    else{
+      return Scaffold(
+        backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
+        resizeToAvoidBottomInset: false,
+        body:  Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              backButton,
+              header,
+              subHeader,
+              emailForm,
+              passwordForm,
+              signInButton,
+              facebookSignInButton,
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
