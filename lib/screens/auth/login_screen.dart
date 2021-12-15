@@ -36,13 +36,13 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void displaySpinner () {
+  void displaySpinner() {
     setState() {
       showSpinner = true;
     }
   }
 
-  void stopDisplayingSpinner () {
+  void stopDisplayingSpinner() {
     setState() {
       showSpinner = false;
     }
@@ -74,12 +74,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void signIn () async {
+  void signIn() async {
     displaySpinner();
     try {
       print('Signin execution started');
-      final user = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
+      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailInputController.text,
           password: _pwdInputController.text);
       stopDisplayingSpinner();
@@ -92,25 +91,42 @@ class _LoginScreenState extends State<LoginScreen> {
       errorMessage(err);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
-
     Widget backButton = Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-          },
-        icon: Icon(
-          Icons.arrow_back_ios_new_outlined,
-          size: 18,
-          color: widget.isdark ? Colors.white : Colors.black,
-        )
+      padding: MediaQuery.of(context).orientation == Orientation.portrait
+          ? EdgeInsets.only(top: 20, right: 300)
+          : EdgeInsets.only(top: 20, right: 750),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20.0, 0.0, 80.0, 0.0),
+        child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_new_outlined,
+              size: 18,
+              color: widget.isdark ? Colors.white : Colors.black,
+            )),
       ),
     );
-    
-    
+
+    Widget header = Container(
+      margin: MediaQuery.of(context).orientation == Orientation.portrait
+          ? EdgeInsets.only(left: 103.0, right: 59.0)
+          : EdgeInsets.only(left: 350.0, right: 59.0),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 6, bottom: 5),
+      child: TextHelper(
+        text: "Welcome Back",
+        size: 30,
+        color: widget.isdark ? Colors.white : Colors.black,
+        weight: FontWeight.bold,
+      ),
+    );
+
+/*
     Widget header = Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
       child: TextHelper(
@@ -120,7 +136,20 @@ class _LoginScreenState extends State<LoginScreen> {
         weight: FontWeight.bold,
       ),
     );
-    
+*/
+    Widget subHeader = Container(
+      margin: MediaQuery.of(context).orientation == Orientation.portrait
+          ? EdgeInsets.only(left: 95.0, right: 59.0)
+          : EdgeInsets.only(left: 343.0, right: 59.0),
+      child: TextHelper(
+        text: "Login to cherish the journey",
+        size: 18,
+        color: widget.isdark ? Colors.white : Colors.black,
+        weight: FontWeight.normal,
+      ),
+    );
+
+    /*
     Widget subHeader = Padding(
       padding: const EdgeInsets.only(left: 20, bottom: 30),
       child: TextHelper(
@@ -130,19 +159,18 @@ class _LoginScreenState extends State<LoginScreen> {
         weight: FontWeight.normal,
       ),
     );
-    
+*/
     Widget emailForm = Container(
       padding: const EdgeInsets.only(bottom: 20),
       child: TextInputField(
         color: widget.isdark ? Colors.white : Colors.grey[200],
         controller: _emailInputController,
-        validator: (input) =>
-        !input.contains('@') ? 'Not a valid Email' : null,
+        validator: (input) => !input.contains('@') ? 'Not a valid Email' : null,
         textInputType: TextInputType.emailAddress,
         label: "Email",
       ),
     );
-    
+
     Widget passwordForm = Container(
       padding: const EdgeInsets.only(bottom: 20),
       child: PasswordInputField(
@@ -153,14 +181,12 @@ class _LoginScreenState extends State<LoginScreen> {
         label: "Password",
       ),
     );
-    
-    
+
     Widget signInButton = MyButton(
       text: 'Sign in',
       onPressed: signIn,
     );
 
-    
     Widget facebookSignInButton = Container(
       padding: const EdgeInsets.all(20),
       child: Row(
@@ -181,8 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: <Widget>[
               backButton,
               header,
@@ -190,6 +215,11 @@ class _LoginScreenState extends State<LoginScreen> {
               emailForm,
               passwordForm,
               Spacer(),
+              Container(
+                height: 230.0,
+                color: Colors.white,
+                // child: Container(),
+              ),
               signInButton,
               facebookSignInButton,
             ],

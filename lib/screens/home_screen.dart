@@ -33,8 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           isdark: widget.isdark,
           signInMethod: SignInMethod.email,
         ),
-        settings:
-          RouteSettings(name: 'Registration Screen'),
+        settings: RouteSettings(name: 'Registration Screen'),
       ),
     );
   }
@@ -48,9 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
           isHire: false,
           signInMethod: SignInMethod.email,
         ),
-        settings:
-          RouteSettings(name: 'Registration Screen'),
-        ),
+        settings: RouteSettings(name: 'Registration Screen'),
+      ),
     );
   }
 
@@ -68,15 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget toggleDarkModeButton = Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         child: Icon(
           widget.isdark ? Icons.light_mode : Icons.dark_mode,
-          color: widget.isdark
-              ? Colors.white
-              :  Color(0xff7f1cff),
+          color: widget.isdark ? Colors.white : Color(0xff7f1cff),
           size: 20.0,
         ),
         onTap: toggleDarkMode,
@@ -84,28 +79,40 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     Widget header = Container(
+      margin: MediaQuery.of(context).orientation == Orientation.portrait
+          ? EdgeInsets.only(left: 125.0, right: 59.0)
+          : EdgeInsets.only(left: 365.0, right: 59.0),
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height / 6,
-          bottom: 5
-      ),
+          top: MediaQuery.of(context).size.height / 6, bottom: 5),
       child: TextHelper(
         weight: FontWeight.bold,
         text: "Work Today",
         size: 30,
-        color: widget.isdark
-            ? Colors.white
-            : Color.fromRGBO(56, 56, 68, 1),
+        color: widget.isdark ? Colors.white : Color.fromRGBO(56, 56, 68, 1),
       ),
     );
 
-    Widget subHeader = TextHelper(
-      text: "Hire workers instantly",
-      size: 20,
-      color: widget.isdark
-          ? Colors.white
-          : Color.fromRGBO(56, 56, 68, 1),
+    Widget subHeader = Container(
+      margin: MediaQuery.of(context).orientation == Orientation.portrait
+          ? EdgeInsets.only(left: 110.0, right: 59.0)
+          : EdgeInsets.only(left: 347.0, right: 59.0),
+      child: TextHelper(
+        weight: FontWeight.bold,
+        text: "Hire workers instantly",
+        size: 20,
+        color: widget.isdark ? Colors.white : Color.fromRGBO(56, 56, 68, 1),
+      ),
     );
 
+    /*
+    Widget subHeader = TextHelper(
+      text: "Hire workers instantly"
+
+      ,
+      size: 20,
+      color: widget.isdark ? Colors.white : Color.fromRGBO(56, 56, 68, 1),
+    );
+*/
     Widget workTodayLogo = Container(
       height: MediaQuery.of(context).size.height / 3,
       child: Center(child: Image.asset("images/logo_bg_remove.png")),
@@ -173,6 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: widget.isdark ? Colors.grey[900] : Colors.white,
             centerTitle: false,
@@ -182,13 +190,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           backgroundColor: widget.isdark ? Colors.grey[900] : Colors.white,
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          body: //Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          ListView(
             children: [
               header,
               subHeader,
               workTodayLogo,
               Spacer(),
+              Container(
+                height: 150.0,
+                color: Colors.white,
+                // child: Container(),
+              ),
               registrationOptions,
               getStartedButton,
             ],
