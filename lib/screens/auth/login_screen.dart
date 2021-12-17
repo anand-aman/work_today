@@ -17,7 +17,6 @@ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
-
 class _LoginScreenState extends State<LoginScreen> {
 //  final _auth=FirebaseAuth.instance;
   String email;
@@ -94,39 +93,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom;
+
     Widget backButton = Padding(
-      padding: MediaQuery.of(context).orientation == Orientation.portrait
-          ? EdgeInsets.only(top: 20, right: 300)
-          : EdgeInsets.only(top: 20, right: 750),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20.0, 0.0, 80.0, 0.0),
-        child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_new_outlined,
-              size: 18,
-              color: widget.isdark ? Colors.white : Colors.black,
-            )),
+      padding: const EdgeInsets.only(top: 20),
+      child: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 18,
+            color: widget.isdark ? Colors.white : Colors.black,
+          )
       ),
     );
 
-    Widget header = Container(
-      margin: MediaQuery.of(context).orientation == Orientation.portrait
-          ? EdgeInsets.only(left: 103.0, right: 59.0)
-          : EdgeInsets.only(left: 350.0, right: 59.0),
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height / 6, bottom: 5),
-      child: TextHelper(
-        text: "Welcome Back",
-        size: 30,
-        color: widget.isdark ? Colors.white : Colors.black,
-        weight: FontWeight.bold,
-      ),
-    );
-
-/*
     Widget header = Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
       child: TextHelper(
@@ -136,20 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
         weight: FontWeight.bold,
       ),
     );
-*/
-    Widget subHeader = Container(
-      margin: MediaQuery.of(context).orientation == Orientation.portrait
-          ? EdgeInsets.only(left: 95.0, right: 59.0)
-          : EdgeInsets.only(left: 343.0, right: 59.0),
-      child: TextHelper(
-        text: "Login to cherish the journey",
-        size: 18,
-        color: widget.isdark ? Colors.white : Colors.black,
-        weight: FontWeight.normal,
-      ),
-    );
 
-    /*
     Widget subHeader = Padding(
       padding: const EdgeInsets.only(left: 20, bottom: 30),
       child: TextHelper(
@@ -159,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
         weight: FontWeight.normal,
       ),
     );
-*/
+
     Widget emailForm = Container(
       padding: const EdgeInsets.only(bottom: 20),
       child: TextInputField(
@@ -201,11 +171,13 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
-
-    return Scaffold(
-      backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
-      body: SafeArea(
-        child: Container(
+    
+    if(isKeyboard==0){
+      
+      return Scaffold(
+        backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
+        resizeToAvoidBottomInset: false,
+        body:  Container(
           height: MediaQuery.of(context).size.height,
           child: ListView(
             children: <Widget>[
@@ -215,17 +187,35 @@ class _LoginScreenState extends State<LoginScreen> {
               emailForm,
               passwordForm,
               Spacer(),
-              Container(
-                height: 230.0,
-                color: widget.isdark ? Colors.grey[850] : Colors.white
-                // child: Container(),
-              ),
               signInButton,
               facebookSignInButton,
             ],
           ),
         ),
-      ),
-    );
+      );
+    }
+    
+    else{
+      
+      return Scaffold(
+        backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
+        resizeToAvoidBottomInset: false,
+        body:  Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              backButton,
+              header,
+              subHeader,
+              emailForm,
+              passwordForm,
+              signInButton,
+              facebookSignInButton,
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
