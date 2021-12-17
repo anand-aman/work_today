@@ -35,13 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void displaySpinner () {
+  void displaySpinner() {
     setState() {
       showSpinner = true;
     }
   }
 
-  void stopDisplayingSpinner () {
+  void stopDisplayingSpinner() {
     setState() {
       showSpinner = false;
     }
@@ -73,12 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void signIn () async {
+  void signIn() async {
     displaySpinner();
     try {
       print('Signin execution started');
-      final user = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
+      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailInputController.text,
           password: _pwdInputController.text);
       stopDisplayingSpinner();
@@ -111,7 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
-
     Widget header = Padding(
       padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
       child: TextHelper(
@@ -137,8 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: TextInputField(
         color: widget.isdark ? Colors.white : Colors.grey[200],
         controller: _emailInputController,
-        validator: (input) =>
-        !input.contains('@') ? 'Not a valid Email' : null,
+        validator: (input) => !input.contains('@') ? 'Not a valid Email' : null,
         textInputType: TextInputType.emailAddress,
         label: "Email",
       ),
@@ -155,12 +152,10 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
-
     Widget signInButton = MyButton(
       text: 'Sign in',
       onPressed: signIn,
     );
-
 
     Widget facebookSignInButton = Container(
       padding: const EdgeInsets.all(20),
@@ -176,14 +171,15 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+    
     if(isKeyboard==0){
+      
       return Scaffold(
         backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
         resizeToAvoidBottomInset: false,
         body:  Container(
           height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: <Widget>[
               backButton,
               header,
@@ -198,7 +194,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     }
+    
     else{
+      
       return Scaffold(
         backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
         resizeToAvoidBottomInset: false,
