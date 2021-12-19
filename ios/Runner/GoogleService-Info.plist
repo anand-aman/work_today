@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>685257145118-45cnld93pskg5bu6jj1jag1j7ascmbcc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.685257145118-45cnld93pskg5bu6jj1jag1j7ascmbcc</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>685257145118-npqobic6igcb51t71qbpga54a05id99e.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDVw5WjPgHG92Gsqg1mFo0R2pcoOkN-L84</string>
+	<key>GCM_SENDER_ID</key>
+	<string>685257145118</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.dartist.workToday</string>
+	<key>PROJECT_ID</key>
+	<string>word-today</string>
+	<key>STORAGE_BUCKET</key>
+	<string>word-today.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:685257145118:ios:166b0ae5427934df38270f</string>
+	<key>DATABASE_URL</key>
+	<string>https://word-today.firebaseio.com</string>
+</dict>
+</plist>
