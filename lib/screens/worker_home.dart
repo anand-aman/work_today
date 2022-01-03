@@ -10,6 +10,30 @@ import 'home_screen.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
+class HomeButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeScreen(
+                      isdark: false,
+                    )));
+      },
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(
+          padding: EdgeInsets.only(right: 200.0),
+          //margin: EdgeInsets.only(right: 50.0),
+          height: 70.0,
+          child: Image.asset("images/logo_bg_remove.png"),
+        ),
+      ]),
+    );
+  }
+}
+
 class WorkerHome extends StatefulWidget {
   bool isdark;
   WorkerHome({this.isdark});
@@ -19,7 +43,6 @@ class WorkerHome extends StatefulWidget {
 }
 
 class _WorkerHomeState extends State<WorkerHome> {
-
   void navigateToAccountPage() {
     Navigator.push(
       context,
@@ -39,7 +62,6 @@ class _WorkerHomeState extends State<WorkerHome> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget notificationButton = Padding(
       padding: const EdgeInsets.only(left: 10, top: 12, bottom: 12, right: 12),
       child: IconButton(
@@ -126,6 +148,7 @@ class _WorkerHomeState extends State<WorkerHome> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            HomeButton(),
             header,
             subHeader,
             requestStream,

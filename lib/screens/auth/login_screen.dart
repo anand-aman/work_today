@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:work_today/components/my_button.dart';
 import 'package:work_today/screens/auth/registration_screen.dart';
+import 'package:work_today/screens/home_screen.dart';
 import 'package:work_today/services/check.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,27 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:work_today/components/input_field.dart';
 import 'package:work_today/widgets/text.dart';
 import 'package:work_today/services/firebase_user.dart';
+import 'package:work_today/size_config.dart';
+
+class HomeButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeScreen(
+                      isdark: false,
+                    )));
+      },
+      child: Container(
+        height: 200.0,
+        child: Image.asset("images/logo_bg_remove.png"),
+      ),
+    );
+  }
+}
 
 class LoginScreen extends StatefulWidget {
   final bool isdark;
@@ -177,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
         color: widget.isdark ? Colors.white : Colors.grey[200],
         controller: _pwdInputController,
         validator: (input) =>
-        input.length < 8 ? 'You need at least 8 characters' : null,
+            input.length < 8 ? 'You need at least 8 characters' : null,
         label: "Password",
       ),
     );
@@ -201,7 +223,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
-
     return Scaffold(
       backgroundColor: widget.isdark ? Colors.grey[850] : Colors.white,
       body: SafeArea(
@@ -210,16 +231,17 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ListView(
             children: <Widget>[
               backButton,
+              HomeButton(),
               header,
               subHeader,
               emailForm,
               passwordForm,
               Spacer(),
               Container(
-                height: 230.0,
-                color: widget.isdark ? Colors.grey[850] : Colors.white
-                // child: Container(),
-              ),
+                  height: SizeConfig.blockSizeVertical,
+                  color: widget.isdark ? Colors.grey[850] : Colors.white
+                  // child: Container(),
+                  ),
               signInButton,
               facebookSignInButton,
             ],
