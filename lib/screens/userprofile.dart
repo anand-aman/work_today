@@ -66,7 +66,7 @@ class _UserProfileState extends State<UserProfile> {
     );
 
     Widget userEmail = Card(
-      color: Colors.grey[200],
+      color: widget.isdark ? Colors.grey[800] : Colors.grey[200],
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
       child: ListTile(
         leading: Icon(
@@ -84,7 +84,7 @@ class _UserProfileState extends State<UserProfile> {
     );
 
     Widget userPhoneNum = Card(
-      color: Colors.grey[200],
+      color: widget.isdark ? Colors.grey[800] : Colors.grey[200],
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
       child: ListTile(
         leading: Icon(
@@ -102,7 +102,7 @@ class _UserProfileState extends State<UserProfile> {
     );
 
     Widget userLocation = Card(
-      color: Colors.grey[200],
+      color: widget.isdark ? Colors.grey[800] : Colors.grey[200],
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
       child: ListTile(
         leading: Icon(
@@ -120,7 +120,7 @@ class _UserProfileState extends State<UserProfile> {
     );
 
     Widget userCategory = Card(
-      color: Colors.grey[200],
+      color: widget.isdark ? Colors.grey[800] : Colors.grey[200],
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
       child: ListTile(
         leading: Icon(
