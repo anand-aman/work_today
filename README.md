@@ -1,4 +1,4 @@
-# Work Today App
+# <p align = "center"> Work Today App </p>
 
 - We envision creating better and empowered livelihood for  daily wagers all across India. Through our innovation and dedication we are striving towards creating an organized infrastructure and accountable days of employment for these daily wagers . We have deeply understood the state of workers in India. We simply connect workers with hirers , whilst providing a simple to use UI that anybody can make use of to hire or to work.
 
@@ -52,3 +52,11 @@
 <img src="https://i.ibb.co/Gtk4Dt7/11.png" width="250">
 <img src="https://i.ibb.co/BNrPTvV/12.png" width="250">
   </p>
+
+## Our Valuable Contributors:
+
+### <p align="center"> Made with ❤️ by </p>
+
+<a href="https://github.com/anand-aman/work_today/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=anand-aman/work_today" />
+</a>
