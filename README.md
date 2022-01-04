@@ -55,7 +55,14 @@
 #### Light Mode
 ![App Screenshot](https://i.ibb.co/7jZP65h/31.png)
 
+<<<<<<< HEAD
 ### 5. Screen that shows the list of jobs that the user can select.
+=======
+- Create an issue
+- Get it assigned
+- Pull the latest code and start working after it is assigned
+- Create a pull request for 'kwoc' branch and mention the issue number with '#'
+>>>>>>> 007dbc83d583f675cd72d0ececee681501636864
 
 #### Light Mode
 ![App Screenshot](https://i.ibb.co/2yGbCkJ/6.png)

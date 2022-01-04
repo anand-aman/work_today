@@ -191,18 +191,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           backgroundColor: widget.isdark ? Colors.grey[900] : Colors.white,
           body: //Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          ListView(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              ListView(
             children: [
               header,
               subHeader,
               workTodayLogo,
               Spacer(),
               Container(
-                height: 150.0,
-                color:widget.isdark ? Colors.grey[900] : Colors.white
-                // child: Container(),
-              ),
+                  height: 150.0,
+                  color: widget.isdark ? Colors.grey[900] : Colors.white
+                  // child: Container(),
+                  ),
               registrationOptions,
               getStartedButton,
             ],

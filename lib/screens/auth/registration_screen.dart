@@ -12,6 +12,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:work_today/services/firebase_user.dart';
 import 'package:work_today/services/location.dart';
 import 'package:work_today/widgets/text.dart';
+import 'package:work_today/size_config.dart';
+import 'package:work_today/screens/home_screen.dart';
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
@@ -27,6 +29,7 @@ class RegistrationScreen extends StatefulWidget {
     this.isdark,
     this.signInMethod,
   }) : super(key: key);
+
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -49,8 +52,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (widget.signInMethod == SignInMethod.email)
       return _auth
           .createUserWithEmailAndPassword(
-          email: _emailInputController.text,
-          password: _pwdInputController.text)
+              email: _emailInputController.text,
+              password: _pwdInputController.text)
           .then((currentUser) {
         updateUserData(currentUser.user);
         return true;
@@ -87,36 +90,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .collection('users')
         .doc(currentUser.uid)
         .set({
-      "uid": currentUser.uid,
-      "name": _usernameInputController.text,
-      "phoneNo": _phoneNoController.text,
-      "email": _emailInputController.text,
-      "isHirer": isHirer,
-      "signInMethod": widget.signInMethod.index,
-    })
+          "uid": currentUser.uid,
+          "name": _usernameInputController.text,
+          "phoneNo": _phoneNoController.text,
+          "email": _emailInputController.text,
+          "isHirer": isHirer,
+          "signInMethod": widget.signInMethod.index,
+        })
         .then((value) => print('DATA UPDATED'))
         .catchError((onError) {
-      setState(() {
-        showSpinner = false;
-      });
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text(onError.toString()),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Close"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
+          setState(() {
+            showSpinner = false;
+          });
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Error"),
+                content: Text(onError.toString()),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Close"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            },
           );
-        },
-      );
-    });
+        });
   }
 
   void initialize() async {
@@ -179,7 +182,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     displaySpinner();
 
     createUser().then(
-          (value) {
+      (value) {
         stopDisplayingSpinner();
         if (value) {
           navigateToLocationScreen();
@@ -193,6 +196,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // TODO: implement initState
     super.initState();
     initialize();
+    SizeConfig();
   }
 
   @override
@@ -239,11 +243,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       padding: MediaQuery.of(context).orientation == Orientation.portrait
           ? EdgeInsets.only(right: 80, left: 80)
           : EdgeInsets.only(right: 300, left: 325),
-      child: TextHelper(
-        text: "Join to get immediate updates",
-        size: 18,
-        weight: FontWeight.normal,
-        color: widget.isdark ? Colors.white : Colors.black,
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: TextHelper(
+          text: "Join to get immediate updates",
+          size: 18,
+          weight: FontWeight.normal,
+          color: widget.isdark ? Colors.white : Colors.black,
+        ),
       ),
     );
 
@@ -297,8 +304,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           buttonColor: isHirer
               ? Color(0xff7f1cff)
               : widget.isdark
-              ? Colors.grey[850]
-              : Colors.white,
+                  ? Colors.grey[850]
+                  : Colors.white,
           width: 100.0,
         ),
       ],
@@ -323,8 +330,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onPressed: () {},
           buttonColor: isHirer
               ? widget.isdark
-              ? Colors.grey[850]
-              : Colors.white
+                  ? Colors.grey[850]
+                  : Colors.white
               : Color(0xff7f1cff),
           width: 100.0,
         ),
@@ -341,7 +348,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             return 'Email is required';
           }
           if (!RegExp(
-              r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                  r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
               .hasMatch(value)) {
             return 'Please enter a valid email Address';
           }
@@ -431,10 +438,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               formFields,
               Spacer(),
               Container(
-                height: 170.0,
-                color: widget.isdark ? Colors.grey[900] : Colors.white
-                // child: Container(),
-              ),
+                  height: SizeConfig.blockSizeVertical,
+                  color: widget.isdark ? Colors.grey[900] : Colors.white
+                  // child: Container(),
+                  ),
               signUpButton,
             ],
           ),

@@ -19,7 +19,6 @@ class WorkerHome extends StatefulWidget {
 }
 
 class _WorkerHomeState extends State<WorkerHome> {
-
   void navigateToAccountPage() {
     Navigator.push(
       context,
@@ -39,7 +38,6 @@ class _WorkerHomeState extends State<WorkerHome> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget notificationButton = Padding(
       padding: const EdgeInsets.only(left: 10, top: 12, bottom: 12, right: 12),
       child: IconButton(
